@@ -1,0 +1,3 @@
+[submodule "packages/utils/motion-canvas"]
+	path = packages/utils/motion-canvas
+	url = git@github.com:motion-canvas/motion-canvas.git

@@ -1,0 +1,1 @@
+export { initMain } from "./Main";

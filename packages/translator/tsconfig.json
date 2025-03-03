@@ -1,0 +1,14 @@
+{
+  "extends": "@tsconfig/node22/tsconfig.json",
+  "compilerOptions": {
+    "lib": ["ES6", "DOM"],
+    "experimentalDecorators": true,
+    "declaration": true,
+    "declarationDir": "./dist",
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true
+  },
+    "exclude": ["**/__tests__", "**/*.test.ts", "**/*.test.tsx", "**/*.stories.tsx"]
+}
