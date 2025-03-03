@@ -6,8 +6,7 @@
     "build": "rm -rf dist && rollup -c",
     "dev": "rollup -c -w",
     "test": "tap run",
-    "pretest": "pnpm run build",
-    "post": "npm run build && npm version patch && npm publish"
+    "pretest": "pnpm run build"
   },
   "dependencies": {
     "@motion-canvas/2d": "^3.17.2",
