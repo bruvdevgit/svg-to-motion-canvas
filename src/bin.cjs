@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { initMain } from "translator";
+const { initMain } = require("translator");
 
 console.log('in bin.js');
 (async () => {

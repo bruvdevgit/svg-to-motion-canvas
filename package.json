@@ -5,7 +5,8 @@
   "main": "src/index.ts",
   "bin": "src/bin.cjs",
   "scripts": {
-    "post": "npm run build --workspace=translator && npm version patch && npm publish"
+    "post": "npm run build --workspace=translator && npm version patch && npm publish",
+    "test": "npm run test --workspace=translator"
   },
   "keywords": [],
   "author": "",
