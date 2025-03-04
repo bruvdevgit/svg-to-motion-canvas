@@ -1,9 +1,13 @@
 {
-  "name": "utils",
+  "name": "custom-components",
   "version": "0.0.1",
   "main": "index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "@motion-canvas/2d": "./motion-canvas/packages/2d/src/lib/index.ts",
+    "@motion-canvas/core": "./motion-canvas/packages/core/src/index.ts"
   },
   "keywords": [],
   "author": "",
