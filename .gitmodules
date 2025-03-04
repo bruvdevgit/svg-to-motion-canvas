@@ -1,3 +1,3 @@
-[submodule "packages/custom-components/motion-canvas"]
-	path = packages/custom-components/motion-canvas
+[submodule "packages/custom-components/src/motion-canvas"]
+	path = packages/custom-components/src/motion-canvas
 	url = git@github.com:bruvdevgit/motion-canvas.git
