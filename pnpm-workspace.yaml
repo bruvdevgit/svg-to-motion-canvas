@@ -1,0 +1,7 @@
+# We're choosing rather to use the
+# the workspace: protocol to explicitly tell
+# pnpm which packages must come from 
+# other packages/workspaces in this project.
+link-workspace-packages: false
+packages:
+  - 'packages/*'

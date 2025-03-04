@@ -10,6 +10,8 @@
   "license": "ISC",
   "workspaces": [
     "packages/translator",
-    "packages/custom-components"
+    "packages/custom-components",
+    "packages/2d",
+    "packages/internal"
   ]
 }

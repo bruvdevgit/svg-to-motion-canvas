@@ -16,7 +16,7 @@ export default {
 			transforms: ['typescript'],
 		}),
 		commonjs({ // Converts CommonJS modules to ES6
-			include: 'node_modules/**', // Include all modules in node_modules
+			include: '../../node_modules/**', // Include all modules in node_modules
 		}),
 		typescript(),
 		preserveShebangs(),
