@@ -1,5 +1,5 @@
 {
-  "name": "translator",
+  "name": "@svg-to-motion-canvas/translator",
   "version": "0.0.1",
   "bin": "dist/bin.js",
   "scripts": {

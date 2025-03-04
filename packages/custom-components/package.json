@@ -1,5 +1,5 @@
 {
-  "name": "custom-components",
+  "name": "@svg-to-motion-canvas/custom-components",
   "version": "0.0.1",
   "main": "index.ts",
   "scripts": {
