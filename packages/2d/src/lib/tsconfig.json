@@ -6,7 +6,7 @@
     "jsxImportSource": "@motion-canvas/2d/src/lib",
     "plugins": [
       {
-        "transform": "@motion-canvas/internal/transformers/markdown-literals.js"
+        "transform": "@svg-to-motion-canvas/internal/transformers/markdown-literals.js"
       }
     ]
   },

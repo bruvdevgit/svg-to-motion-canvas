@@ -1,4 +1,4 @@
-import typescript from '@motion-canvas/internal/rollup/typescript.mjs';
+import typescript from '@svg-to-motion-canvas/rollup/typescript.mjs';
 import resolve from '@rollup/plugin-node-resolve';
 import postcss from 'rollup-plugin-postcss';
 
