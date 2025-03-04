@@ -1,5 +1,5 @@
 {
-  "name": "@motion-canvas/2d",
+  "name": "@svg-to-motion-canvas/2d",
   "version": "3.17.2",
   "description": "A 2D renderer for Motion Canvas",
   "author": "motion-canvas",
@@ -28,7 +28,7 @@
     "tsconfig.project.json"
   ],
   "devDependencies": {
-    "@motion-canvas/internal": "0.0.0",
+    "@svg-to-motion-canvas/internal": "0.0.0",
     "@motion-canvas/ui": "^3.17.2",
     "@preact/signals": "^1.2.1",
     "clsx": "^2.0.0",
