@@ -1,13 +1,13 @@
 {
   "name": "@svg-to-motion-canvas/translator",
-  "version": "0.0.1",
+  "version": "0.0.4",
   "bin": "dist/bin.js",
   "scripts": {
     "build": "rm -rf dist && rollup -c",
     "dev": "rollup -c -w",
     "test": "tap run",
-    "pretest": "npm run build",
-    "post": "npm run build && npm version patch && npm publish"
+    "pretest": "pnpm run build",
+    "post": "pnpm run build && pnpm version patch && pnpm publish"
   },
   "dependencies": {
     "@motion-canvas/2d": "^3.17.2",
