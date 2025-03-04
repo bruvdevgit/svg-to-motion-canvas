@@ -6,6 +6,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "post": "npm version patch && npm publish"
   },
+  "dependencies": {
+    "@svg-to-motion-canvas/2d": "0.0.1",
+  },
   "peerDependencies": {
     "@motion-canvas/2d": "^3.17.2",
     "@motion-canvas/core": "^3.17.2"
