@@ -1,12 +1,13 @@
 {
   "name": "translator",
   "version": "0.0.1",
-  "main": "dist/Main.js",
+  "bin": "dist/bin.js",
   "scripts": {
     "build": "rm -rf dist && rollup -c",
     "dev": "rollup -c -w",
     "test": "tap run",
-    "pretest": "pnpm run build"
+    "pretest": "npm run build",
+    "post": "npm run build && npm version patch && npm publish"
   },
   "dependencies": {
     "@motion-canvas/2d": "^3.17.2",

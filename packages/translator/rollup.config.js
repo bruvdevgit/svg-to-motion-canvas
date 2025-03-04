@@ -5,7 +5,7 @@ import resolve from '@rollup/plugin-node-resolve';
 import sucrase from '@rollup/plugin-sucrase';
 
 export default {
-	input: ['src/Main.ts'],
+	input: ['src/bin.ts'],
 	output: {
 		dir: 'dist',
 		format: 'cjs'
