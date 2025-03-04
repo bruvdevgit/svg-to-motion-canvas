@@ -1,4 +1,4 @@
-import { Circle, CircleProps, computed, CurveProfile, getCircleProfile, initial, nodeName, signal } from '@motion-canvas/2d';
+import { Circle, CircleProps, computed, CurveProfile, getCircleProfile, initial, nodeName, signal } from './motion-canvas/packages/2d/src/lib/index.ts';
 import {
   DEG2RAD,
   SignalValue,

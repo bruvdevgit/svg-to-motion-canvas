@@ -5,9 +5,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "dependencies": {
-    "@motion-canvas/2d": "./motion-canvas/packages/2d/src/lib/index.ts",
-    "@motion-canvas/core": "./motion-canvas/packages/core/src/index.ts"
+  "peerDependencies": {
+    "@motion-canvas/2d": "^3.17.2",
+    "@motion-canvas/core": "^3.17.2"
   },
   "keywords": [],
   "author": "",
