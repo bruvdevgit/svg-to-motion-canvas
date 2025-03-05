@@ -29,7 +29,7 @@ export interface PropertyMetadata<T> {
   compoundEntries: [string, string][];
 }
 
-const PROPERTIES = Symbol.for('@motion-canvas/2d/decorators/properties');
+const PROPERTIES = Symbol.for('@svg-to-motion-canvas/2d/decorators/properties');
 
 export function getPropertyMeta<T>(
   object: any,

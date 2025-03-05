@@ -8,7 +8,7 @@ import {SceneGraphTabConfig} from './SceneGraphTabConfig';
 
 export default makeEditorPlugin(() => {
   return {
-    name: '@motion-canvas/2d',
+    name: '@svg-to-motion-canvas/2d',
     provider: Provider,
     previewOverlay: PreviewOverlayConfig,
     tabs: [SceneGraphTabConfig],

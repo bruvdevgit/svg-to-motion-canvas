@@ -1,5 +1,12 @@
 # @svg-to-motion-canvas/custom-components
 
+## 0.0.8
+
+### Patch Changes
+
+- Updated dependencies
+  - @svg-to-motion-canvas/2d@0.0.5
+
 ## 0.0.7
 
 ### Patch Changes

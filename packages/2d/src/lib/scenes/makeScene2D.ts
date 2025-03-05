@@ -14,6 +14,6 @@ export function makeScene2D(
     config: runner,
     stack: new Error().stack,
     meta: createSceneMetadata(),
-    plugins: ['@motion-canvas/2d/editor'],
+    plugins: ['@svg-to-motion-canvas/2d/editor'],
   };
 }

@@ -1,5 +1,11 @@
 # Change Log
 
+## 0.0.5
+
+### Patch Changes
+
+- Trying to get @svg-to-motion-canvas/2d working
+
 ## 0.0.4
 
 ### Patch Changes

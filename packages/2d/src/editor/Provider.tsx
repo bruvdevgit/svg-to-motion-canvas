@@ -1,4 +1,4 @@
-import {Scene2D} from '@motion-canvas/2d';
+import {Scene2D} from '@svg-to-motion-canvas/2d';
 import {SceneRenderEvent} from '@motion-canvas/core';
 import {useApplication, useCurrentScene} from '@motion-canvas/ui';
 import {
@@ -22,7 +22,7 @@ export interface PluginState {
 
 const PluginContext = createContext<PluginState | null>(null);
 
-export const NodeInspectorKey = '@motion-canvas/2d/node-inspector';
+export const NodeInspectorKey = '@svg-to-motion-canvas/2d/node-inspector';
 
 export function usePluginState() {
   return useContext(PluginContext)!;

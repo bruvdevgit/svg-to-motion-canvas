@@ -2,6 +2,6 @@
   "extends": "@motion-canvas/core/tsconfig.project.json",
   "compilerOptions": {
     "jsx": "react-jsx",
-    "jsxImportSource": "@motion-canvas/2d/lib"
+    "jsxImportSource": "@svg-to-motion-canvas/2d/lib"
   }
 }

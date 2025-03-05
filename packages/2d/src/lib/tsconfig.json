@@ -3,7 +3,7 @@
   "compilerOptions": {
     "types": ["node"],
     "jsx": "react-jsx",
-    "jsxImportSource": "@motion-canvas/2d/src/lib",
+    "jsxImportSource": "@svg-to-motion-canvas/2d/src/lib",
     "plugins": [
       {
         "transform": "@svg-to-motion-canvas/internal/transformers/markdown-literals.js"

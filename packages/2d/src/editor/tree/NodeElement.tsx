@@ -1,4 +1,4 @@
-import {NODE_NAME, Node} from '@motion-canvas/2d';
+import {NODE_NAME, Node} from '@svg-to-motion-canvas/2d';
 import {useComputed, useSignal, useSignalEffect} from '@preact/signals';
 import {useRef} from 'preact/hooks';
 import {usePluginState} from '../Provider';

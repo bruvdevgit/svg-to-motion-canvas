@@ -46,18 +46,18 @@ import {
   vector2Signal,
   wrapper,
 } from '../decorators';
-import {FiltersSignal, filtersSignal} from '../decorators/filtersSignal';
-import {spacingSignal} from '../decorators/spacingSignal';
-import {Filter} from '../partials';
+import { FiltersSignal, filtersSignal } from '../decorators/filtersSignal';
+import { spacingSignal } from '../decorators/spacingSignal';
+import { Filter } from '../partials';
 import {
   PossibleShaderConfig,
   ShaderConfig,
   parseShader,
 } from '../partials/ShaderConfig';
-import {useScene2D} from '../scenes/useScene2D';
-import {drawLine} from '../utils';
-import type {View2D} from './View2D';
-import type {ComponentChild, ComponentChildren, NodeConstructor} from './types';
+import { useScene2D } from '../scenes/useScene2D';
+import { drawLine } from '../utils';
+import type { View2D } from './View2D';
+import type { ComponentChild, ComponentChildren, NodeConstructor } from './types';
 
 export type NodeState = NodeProps & Record<string, any>;
 
@@ -123,9 +123,6 @@ export interface NodeProps {
 
 @nodeName('Node')
 export class Node implements Promisable<Node> {
-  /**
-   * @internal
-   */
   public declare readonly [NODE_NAME]: string;
   public declare isClass: boolean;
 
@@ -527,7 +524,7 @@ export class Node implements Promisable<Node> {
   public readonly key: string;
   public readonly creationStack?: string;
 
-  public constructor({children, spawner, key, ...rest}: NodeProps) {
+  public constructor({ children, spawner, key, ...rest }: NodeProps) {
     const scene = useScene2D();
     [this.key, this.unregister] = scene.registerNode(this, key);
     this.view2D = scene.getView();
@@ -1186,7 +1183,7 @@ export class Node implements Promisable<Node> {
     this.stateStack = [];
     this.unregister();
     this.unregister = null!;
-    for (const {signal} of this) {
+    for (const { signal } of this) {
       signal?.context.dispose();
     }
     for (const child of this.realChildren) {
@@ -1200,14 +1197,14 @@ export class Node implements Promisable<Node> {
    * @param customProps - Properties to override.
    */
   public clone(customProps: NodeState = {}): this {
-    const props = {...customProps};
+    const props = { ...customProps };
     if (isReactive(this.children.context.raw())) {
       props.children ??= this.children.context.raw();
     } else if (this.children().length > 0) {
       props.children ??= this.children().map(child => child.clone());
     }
 
-    for (const {key, meta, signal} of this) {
+    for (const { key, meta, signal } of this) {
       if (!meta.cloneable || key in props) continue;
       if (meta.compound) {
         for (const [key, property] of meta.compoundEntries) {
@@ -1259,12 +1256,12 @@ export class Node implements Promisable<Node> {
    * @param customProps - Properties to override.
    */
   public reactiveClone(customProps: NodeState = {}): this {
-    const props = {...customProps};
+    const props = { ...customProps };
     if (this.children().length > 0) {
       props.children ??= this.children().map(child => child.reactiveClone());
     }
 
-    for (const {key, meta, signal} of this) {
+    for (const { key, meta, signal } of this) {
       if (!meta.cloneable || key in props) continue;
       props[key] = () => signal();
     }
@@ -1794,7 +1791,7 @@ export class Node implements Promisable<Node> {
    */
   public getState(): NodeState {
     const state: NodeState = {};
-    for (const {key, meta, signal} of this) {
+    for (const { key, meta, signal } of this) {
       if (!meta.cloneable || key in state) continue;
       state[key] = signal();
     }
@@ -1928,7 +1925,7 @@ export class Node implements Promisable<Node> {
     for (const key in this.properties) {
       const meta = this.properties[key];
       const signal = this.signalByKey(key);
-      yield {meta, signal, key};
+      yield { meta, signal, key };
     }
   }
 
