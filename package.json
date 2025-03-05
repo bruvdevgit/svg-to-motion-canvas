@@ -9,10 +9,7 @@
   "author": "",
   "license": "ISC",
   "workspaces": [
-    "packages/translator",
-    "packages/custom-components",
-    "packages/2d",
-    "packages/internal"
+    "packages/translator"
   ],
   "devDependencies": {
     "@changesets/cli": "^2.28.1"
