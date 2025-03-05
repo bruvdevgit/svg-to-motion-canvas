@@ -1,7 +1,6 @@
 {
   "name": "@svg-to-motion-canvas/2d",
-  "version": "0.0.2",
-  "private": true,
+  "version": "0.0.3",
   "description": "@motion-canvas/2d 3.17.2 exposed for utility",
   "author": "motion-canvas",
   "homepage": "https://motioncanvas.io/",
@@ -29,7 +28,7 @@
     "tsconfig.project.json"
   ],
   "devDependencies": {
-    "@svg-to-motion-canvas/internal": "workspace:0.0.0",
+    "@svg-to-motion-canvas/internal": "workspace:*",
     "@motion-canvas/ui": "^3.17.2",
     "@motion-canvas/2d": "^3.17.2",
     "@preact/signals": "^1.2.1",
