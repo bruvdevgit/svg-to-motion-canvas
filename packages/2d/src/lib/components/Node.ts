@@ -58,6 +58,7 @@ import { useScene2D } from '../scenes/useScene2D';
 import { drawLine } from '../utils';
 import type { View2D } from './View2D';
 import type { ComponentChild, ComponentChildren, NodeConstructor } from './types';
+import { Scene2D } from '../scenes/Scene2D';
 
 export type NodeState = NodeProps & Record<string, any>;
 
@@ -119,6 +120,11 @@ export interface NodeProps {
    * @experimental
    */
   shaders?: PossibleShaderConfig;
+
+  /**
+   * Added for @svg-to-motion-canvas
+   */
+  useScene2DFn?: () => Scene2D;
 }
 
 @nodeName('Node')
@@ -524,8 +530,8 @@ export class Node implements Promisable<Node> {
   public readonly key: string;
   public readonly creationStack?: string;
 
-  public constructor({ children, spawner, key, ...rest }: NodeProps) {
-    const scene = useScene2D();
+  public constructor({ children, spawner, key, useScene2DFn, ...rest }: NodeProps) {
+    const scene = useScene2DFn != null ? useScene2DFn() : useScene2D();
     [this.key, this.unregister] = scene.registerNode(this, key);
     this.view2D = scene.getView();
     this.creationStack = new Error().stack;

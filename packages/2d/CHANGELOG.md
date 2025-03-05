@@ -1,5 +1,11 @@
 # Change Log
 
+## 0.0.6
+
+### Patch Changes
+
+- added custom useScene2DFn NodeProp to 2d package
+
 ## 0.0.5
 
 ### Patch Changes
