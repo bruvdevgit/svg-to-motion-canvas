@@ -1,5 +1,11 @@
 # @svg-to-motion-canvas/custom-components
 
+## 0.0.5
+
+### Patch Changes
+
+- figuring out publishing monorepo try2
+
 ## 0.0.4
 
 ### Patch Changes
