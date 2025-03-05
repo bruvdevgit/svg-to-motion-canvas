@@ -1,5 +1,13 @@
 # @svg-to-motion-canvas/custom-components
 
+## 0.0.7
+
+### Patch Changes
+
+- trying to fix weird importing error
+- Updated dependencies
+  - @svg-to-motion-canvas/2d@0.0.4
+
 ## 0.0.6
 
 ### Patch Changes

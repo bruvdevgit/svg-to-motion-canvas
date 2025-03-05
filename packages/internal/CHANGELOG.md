@@ -1,5 +1,11 @@
 # @svg-to-motion-canvas/internal
 
+## 0.0.4
+
+### Patch Changes
+
+- trying to fix weird importing error
+
 ## 0.0.3
 
 ### Patch Changes
