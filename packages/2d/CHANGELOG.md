@@ -1,5 +1,11 @@
 # Change Log
 
+## 0.0.7
+
+### Patch Changes
+
+- trying to get 2d package working try 2
+
 ## 0.0.6
 
 ### Patch Changes
