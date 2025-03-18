@@ -7,7 +7,7 @@ export const _styleAttributesSchema = myzod.object({
   'fill-opacity': myzod.string().optional(),
   stroke: myzod.string(),
   'stroke-width': myzod.string(),
-  'stroke-linecap': myzod.string(),
+  'stroke-linecap': myzod.string().optional(),
   'stroke-linejoin': myzod.string(),
   'stroke-miterlimit': myzod.string(),
   'stroke-dasharray': myzod.string().optional(),

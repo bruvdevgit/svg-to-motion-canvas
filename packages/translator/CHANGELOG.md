@@ -1,5 +1,11 @@
 # @svg-to-motion-canvas/translator
 
+## 0.0.7
+
+### Patch Changes
+
+- made 'stroke-linecap' optional in StyleAttributesSchema
+
 ## 0.0.6
 
 ### Patch Changes

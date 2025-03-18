@@ -9,7 +9,7 @@ export interface StyleAttributes {
   fillOpacity?: number;
   stroke: string;
   strokeWidth: number;
-  strokeLinecap: string;
+  strokeLinecap?: string;
   strokeLinejoin: string;
   strokeMiterlimit: number;
   strokeDasharray?: string;
