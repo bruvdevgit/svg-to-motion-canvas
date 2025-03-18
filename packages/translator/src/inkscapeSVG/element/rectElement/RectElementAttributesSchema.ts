@@ -2,7 +2,7 @@ import myzod, { Infer } from "myzod";
 import { ObjectOptions, PathOptions } from "myzod/libs/types";
 
 const _rectElementAttributesSchema = myzod.object({
-  'inkscape:label': myzod.string().pattern(/^[A-Za-z]+[A-Za-z0-9\-]*$/),
+  'inkscape:label': myzod.string().pattern(/^[A-Za-z]+[A-Za-z0-9\-]*$/).optional(),
   id: myzod.string().pattern(/^[A-Za-z]+[A-Za-z0-9\-]*$/),
   x: myzod.string()
     .withPredicate((val: string) => !Number.isNaN(Number(val)),

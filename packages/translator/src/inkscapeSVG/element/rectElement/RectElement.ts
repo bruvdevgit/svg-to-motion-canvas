@@ -4,7 +4,7 @@ import { StyleAttributes } from '../../styleAttribute/StyleAttributeParser';
 import { Element } from '../Element';
 
 export interface RectElementFields extends StyleAttributes {
-  label: string;
+  label?: string;
   id: string;
   x: number;
   y: number;
@@ -22,7 +22,7 @@ export interface RectElement
 export class _RectElement implements RectElement {
   // these defaults are necessary because typescript
   // doesn't play nice with Object.assign
-  label: string = '';
+  label?: string;
   id: string = '';
   width: number = 0;
   height: number = 0;
@@ -50,7 +50,7 @@ export class _RectElement implements RectElement {
 
   toMotionCanvasNodes(): MotionCanvasNode[] {
     return [this.deps.initMotionCanvasRectNodeFn({
-      refName: this.label,
+      refName: this.label ?? this.id,
       width: this.width,
       height: this.height,
       topLeft: [this.x, this.y],
@@ -61,7 +61,7 @@ export class _RectElement implements RectElement {
         ? { radius: this.ry ?? this.rx }
         : {}),
       children: this.children.map(child => child.toMotionCanvasNodes()).flat(),
-    } as RectNodeFields,
+    } satisfies RectNodeFields,
     )];
   }
 
