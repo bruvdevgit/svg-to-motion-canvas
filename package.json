@@ -3,7 +3,8 @@
   "version": "0.0.63",
   "description": "",
   "scripts": {
-    "test": "npm run test --workspace=translator"
+    "test": "npm run test --workspace=translator",
+    "ci:publish": "pnpm publish -r"
   },
   "keywords": [],
   "author": "",
