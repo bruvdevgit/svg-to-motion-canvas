@@ -1,5 +1,11 @@
 # @svg-to-motion-canvas/translator
 
+## 0.0.10
+
+### Patch Changes
+
+- 816ce40: finding the right function to scale coordinates properly try 1
+
 ## 0.0.9
 
 ### Patch Changes
