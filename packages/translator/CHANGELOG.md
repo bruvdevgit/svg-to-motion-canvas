@@ -1,5 +1,11 @@
 # @svg-to-motion-canvas/translator
 
+## 0.0.9
+
+### Patch Changes
+
+- 4eec53f: minor test update and fixing automatic deployment try 1
+
 ## 0.0.8
 
 ### Patch Changes
