@@ -6,6 +6,9 @@
     "test": "npm run test --workspace=translator",
     "ci:publish": "pnpm publish -r"
   },
+  "devEngines": {
+    "packageManager": "pnpm@9.12.3"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
