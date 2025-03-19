@@ -1,5 +1,11 @@
 # @svg-to-motion-canvas/translator
 
+## 0.0.8
+
+### Patch Changes
+
+- f1929a7: > updated the viewAdderFunction in MotionCanvasCodeRenderer to have the nodes addable to any Node instead of just View2D
+
 ## 0.0.7
 
 ### Patch Changes
