@@ -42,11 +42,11 @@ function coordY(y: number) {
 	return ZERO_POSITION[1] + scaleCoord(y);
 }
 
-export function ${f.viewAdderFunctionName}(view: Node) {
+export function ${f.viewAdderFunctionName}(node: Node) {
 ${f.references.map(ref =>
 			`	const ${ref.variableName} = createRef<${ref.type}>();`).join('\n')}
 
-	view.add(<>
+	node.add(<>
 ${f.components.map(comp => comp.toFileContentString('\t', 2)).join('\n')}
 	</>);
 

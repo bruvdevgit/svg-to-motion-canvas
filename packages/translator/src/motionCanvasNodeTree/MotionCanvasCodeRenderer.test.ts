@@ -82,7 +82,7 @@ t.test('render gives correctly constructed string', t => {
 	const found = motionCanvasCodeRenderer.render(fields);
 
 	const wanted = `
-import { Rect, View2D } from "@motion-canvas/2d";
+import { Rect, Node } from "@motion-canvas/2d";
 import { createRef } from '@motion-canvas/core';
 
 // the zero position (origin) is the center
@@ -101,12 +101,12 @@ function coordY(y: number) {
 	return ZERO_POSITION[1] + scaleCoord(y);
 }
 
-export function rects1920By1080(view: View2D) {
+export function rects1920By1080(node: Node) {
 	const greenFillAndStrokeRectXLongSharpCorners = createRef<Rect>();
 	const redFillAndStrokeRectSquareSharpCorners = createRef<Rect>();
 	const yellowFillAndStrokeRectSquareRoundedCorners = createRef<Rect>();
 
-	view.add(<>
+	node.add(<>
 		{/* green-fill-and-stroke-rect-x-long-sharp-corners */}
 		<Rect
 			ref={greenFillAndStrokeRectXLongSharpCorners}

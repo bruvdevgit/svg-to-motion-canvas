@@ -3,8 +3,9 @@
   "version": "0.0.63",
   "description": "",
   "scripts": {
-    "test": "npm run test --workspace=translator",
-    "ci:publish": "pnpm publish -r"
+    "test": "pnpm --filter translator test",
+    "build": "pnpm --filter translator build",
+    "ci:publish": "pnpm build && pnpm publish -r"
   },
   "packageManager": "pnpm@9.12.3",
   "keywords": [],
