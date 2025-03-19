@@ -23,7 +23,7 @@ export class _MotionCanvasCodeRenderer implements MotionCanvasCodeRenderer {
 
 	render(f: OutputFileFields): string {
 		const result = `
-import { Rect, View2D } from "@motion-canvas/2d";
+import { Rect, Node } from "@motion-canvas/2d";
 import { createRef } from '@motion-canvas/core';
 
 // the zero position (origin) is the center
@@ -42,7 +42,7 @@ function coordY(y: number) {
 	return ZERO_POSITION[1] + scaleCoord(y);
 }
 
-export function ${f.viewAdderFunctionName}(view: View2D) {
+export function ${f.viewAdderFunctionName}(view: Node) {
 ${f.references.map(ref =>
 			`	const ${ref.variableName} = createRef<${ref.type}>();`).join('\n')}
 
