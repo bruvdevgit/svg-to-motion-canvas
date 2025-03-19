@@ -89,8 +89,8 @@ import { createRef } from '@motion-canvas/core';
 const ZERO_POSITION = [-1920 / 2, -1080 / 2];
 
 function scaleCoord(p: number) {
-	// 1080 * (p / 285.75) should give the same result
-	return 1920 * (p / 508);
+	// y = mx where m = ((height-width)/(vBoxHeight-vBoxWidth))
+	return p * ((1080 - 1920) / (285.75 - 508));
 }
 
 function coordX(x: number) {

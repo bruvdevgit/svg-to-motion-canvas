@@ -30,7 +30,8 @@ import { createRef } from '@motion-canvas/core';
 const ZERO_POSITION = [-${f.canvasWidth} / 2, -${f.canvasHeight} / 2];
 
 function scaleCoord(p: number) {
-	return p * ((${f.canvasHeight} - ${f.heightAntecedent}) / (${f.canvasWidth} - ${f.widthAntecedent}));
+	// y = mx where m = ((height-width)/(vBoxHeight-vBoxWidth))
+	return p * ((${f.canvasHeight} - ${f.canvasWidth}) / (${f.heightAntecedent} - ${f.widthAntecedent}));
 }
 
 function coordX(x: number) {
