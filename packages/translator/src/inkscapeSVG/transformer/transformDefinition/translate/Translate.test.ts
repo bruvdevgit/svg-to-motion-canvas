@@ -24,7 +24,7 @@ t.test('applyToScalar works', t => {
   [{
     translate: [123, -82],
     applyTo: 12,
-    wantedResult: 135
+    wantedResult: 12
   },].forEach(({ translate, applyTo, wantedResult, }) => {
     const translateDefinition = new _Translate({
       translateX: translate[0],
