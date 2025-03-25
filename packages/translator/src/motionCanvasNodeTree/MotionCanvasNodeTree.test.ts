@@ -42,10 +42,6 @@ t.test('toFileContentString correctly stringifies', async t => {
 
 	const renderArgs: OutputFileFields = {
 		viewAdderFunctionName: 'landingPageLarge',
-		canvasHeight: 1080,
-		canvasWidth: 1920,
-		heightAntecedent: 287.75,
-		widthAntecedent: 508,
 		components: [...renderInfo.jsxComponents],
 		references: [...renderInfo.references],
 	};
@@ -64,8 +60,6 @@ t.test('toFileContentString correctly stringifies', async t => {
 		nodes: nodesList,
 		canvasHeight: 1080,
 		canvasWidth: 1920,
-		heightAntecedent: 287.75,
-		widthAntecedent: 508,
 	} satisfies MotionCanvasNodeTreeFields);
 
 	await motionCanvasNodeTree.generateOutputFiles({

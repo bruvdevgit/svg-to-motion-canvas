@@ -46,8 +46,6 @@ export class _InkscapeSVG implements InkscapeSVG {
         this.elements.map(elem => elem.toMotionCanvasNodes()).flat()),
       canvasHeight: this.height,
       canvasWidth: this.width,
-      heightAntecedent: this.viewBox.height,
-      widthAntecedent: this.viewBox.width,
     } satisfies MotionCanvasNodeTreeFields);
   }
 }

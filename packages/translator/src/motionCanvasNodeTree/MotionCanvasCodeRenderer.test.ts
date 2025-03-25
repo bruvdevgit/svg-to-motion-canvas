@@ -85,22 +85,6 @@ t.test('render gives correctly constructed string', t => {
 import { Rect, Node } from "@motion-canvas/2d";
 import { createRef } from '@motion-canvas/core';
 
-// the zero position (origin) is the center
-const ZERO_POSITION = [-1920 / 2, -1080 / 2];
-
-function scaleCoord(p: number) {
-	// y = mx where m = ((height-width)/(vBoxHeight-vBoxWidth))
-	return p * ((1080 - 1920) / (285.75 - 508));
-}
-
-function coordX(x: number) {
-	return ZERO_POSITION[0] + scaleCoord(x);
-}
-
-function coordY(y: number) {
-	return ZERO_POSITION[1] + scaleCoord(y);
-}
-
 export function rects1920By1080(node: Node) {
 	const greenFillAndStrokeRectXLongSharpCorners = createRef<Rect>();
 	const redFillAndStrokeRectSquareSharpCorners = createRef<Rect>();

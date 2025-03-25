@@ -5,21 +5,10 @@ import { MotionCanvasNodesList } from './MotionCanvasNodesList';
 import { JSXComponent } from './node/jsxComponent/JSXComponent';
 import { Node as MotionCanvasNode } from './node/Node';
 
-// antecedent : consequent
-//
-//  viewbox   :  width
-//   width
-//     |           |
-//     V           V
-//     x      :   f(x)
-//
-
 export interface MotionCanvasNodeTreeFields {
 	nodes: MotionCanvasNodesList;
 	canvasHeight: number,
 	canvasWidth: number,
-	heightAntecedent?: number,
-	widthAntecedent?: number,
 }
 
 export interface MotionCanvasNodeTree {
@@ -31,8 +20,6 @@ export class _MotionCanvasNodeTree
 	nodes: MotionCanvasNodesList;
 	canvasHeight: number = 0;
 	canvasWidth: number = 0;
-	heightAntecedent?: number;
-	widthAntecedent?: number;
 
 	constructor(public deps: {
 		codeRenderer: MotionCanvasCodeRenderer,
@@ -54,10 +41,6 @@ export class _MotionCanvasNodeTree
 
 		const mainFileCodeContent = this.deps.codeRenderer.render({
 			viewAdderFunctionName,
-			canvasHeight: this.canvasHeight,
-			canvasWidth: this.canvasWidth,
-			heightAntecedent: this.heightAntecedent,
-			widthAntecedent: this.widthAntecedent,
 			components: jsxComponents,
 			references,
 		} satisfies OutputFileFields);

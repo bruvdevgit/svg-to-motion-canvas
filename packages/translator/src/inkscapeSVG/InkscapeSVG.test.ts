@@ -60,8 +60,6 @@ t.test('toMotionCanvasNodeTree correctly creates using initMotionCanvasNodeTreeF
     nodes: nodesList,
     canvasHeight: 1080,
     canvasWidth: 1920,
-    heightAntecedent: 285.75,
-    widthAntecedent: 508,
   };
 
   initMotionCanvasNodeTreeJacket
