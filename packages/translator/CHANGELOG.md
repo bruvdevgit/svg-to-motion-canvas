@@ -1,5 +1,11 @@
 # @svg-to-motion-canvas/translator
 
+## 0.0.12
+
+### Patch Changes
+
+- 561f674: Implemented working with InkscapeSVG transform attribute
+
 ## 0.0.11
 
 ### Patch Changes
