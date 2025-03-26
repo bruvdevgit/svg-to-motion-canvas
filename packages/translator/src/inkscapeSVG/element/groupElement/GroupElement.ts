@@ -7,6 +7,8 @@ export interface GroupElementFields {
   children: Element[];
 }
 
+//https://developer.mozilla.org/en-US/docs/Web/SVG/Reference/Element/g
+// TODO: implement that "its attributes are inherited by its children"
 export interface GroupElement
   extends Element, GroupElementFields {
 }

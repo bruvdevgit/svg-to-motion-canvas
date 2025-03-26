@@ -1,5 +1,6 @@
 import myzod, { Infer } from "myzod";
 import { ObjectOptions, PathOptions } from "myzod/libs/types";
+import { TRANSFORM_ATTRIBUTE_MATRIX_VALUE_REGEX } from "../../transformer/TransformAttributeParser";
 
 const _rectElementAttributesSchema = myzod.object({
   'inkscape:label': myzod.string().pattern(/^[A-Za-z]+[A-Za-z0-9\-]*$/).optional(),
@@ -23,6 +24,9 @@ const _rectElementAttributesSchema = myzod.object({
     .withPredicate((val: string) => !Number.isNaN(Number(val)),
       'value must be convertable to a number'),
   style: myzod.string(),
+  transform: myzod.string()
+    .pattern(TRANSFORM_ATTRIBUTE_MATRIX_VALUE_REGEX)
+    .optional(),
 }).allowUnknownKeys(true);
 
 export type RectElementAttributes = Infer<typeof _rectElementAttributesSchema>;

@@ -2,12 +2,13 @@ import t from 'tap'
 import { Arg, Substitute } from '@fluffy-spoon/substitute';
 import { rectSVGString, rectSVGSvgson, rectInkscapeSVG } from './testData';
 import { SvgsonWrapper } from '../wrappers/SvgsonWrapper';
-import { InitInkscapeSVGFn, InkscapeSVGFields } from './InkscapeSVG';
+import { InitInkscapeSVGFn, InkscapeSVG, InkscapeSVGFields } from './InkscapeSVG';
 import { InkscapeSVGAttributesSchema } from './InkscapeSVGAttributesSchema';
 import { ElementParserFactory } from './element/ElementParserFactory';
 import { _InkscapeSVGParser } from './InkscapeSVGParser';
 import { INode } from 'svgson';
 import { ElementParser } from './element/ElementParser';
+import { Transformer } from './transformer/Transformer';
 
 t.test('parse correctly parses', t => {
   const svgson = Substitute.for<SvgsonWrapper>();
@@ -18,13 +19,7 @@ t.test('parse correctly parses', t => {
   const initInkscapeSVGFn = initInkscapeSVGFnJacket.fn;
   const svgAttributesSchema = Substitute.for<InkscapeSVGAttributesSchema>();
   const elementParserFactory = Substitute.for<ElementParserFactory>();
-
-  const inkscapeSVGParser = new _InkscapeSVGParser({
-    svgson,
-    initInkscapeSVGFn,
-    svgAttributesSchema,
-    elementParserFactory,
-  });
+  const transformer = Substitute.for<Transformer>();
 
   svgson
     .parseSync(rectSVGString)
@@ -42,18 +37,25 @@ t.test('parse correctly parses', t => {
     .children[2]
     .children satisfies INode[];
 
-  let rectElementParser = Substitute.for<ElementParser>();
-  let elementParsers = rectSVGSvgsonElements
-    .map((element, i) => {
-      rectElementParser.parse(element satisfies INode)
-        .returns(rectInkscapeSVG.elements[i]);
-      return rectElementParser;
-    });
+  const newTransformer = Substitute.for<Transformer>();
 
-  elementParserFactory
-    .init(Arg.any())
-    .returns(
-      elementParsers[0], ...elementParsers.slice(1));
+  transformer
+    .addForUserlandConversion({ scaleFactor: 3.779527559055118, centerPoint: [-1920 / 2, -1080 / 2] })
+    .returns(newTransformer);
+
+  let rectElementParser = Substitute.for<ElementParser>();
+  for (let i = 0; i < rectSVGSvgsonElements.length; i++) {
+    const element = rectSVGSvgsonElements[i];
+
+    elementParserFactory
+      .init(element)
+      .returns(rectElementParser);
+
+    rectElementParser
+      .parse({ iNode: element satisfies INode, transformer: newTransformer })
+      .returns(rectInkscapeSVG.elements[i]);
+
+  }
 
   initInkscapeSVGFnJacket
     .fn({
@@ -62,7 +64,16 @@ t.test('parse correctly parses', t => {
       width: rectInkscapeSVG.width,
       viewBox: rectInkscapeSVG.viewBox,
     } as InkscapeSVGFields)
-    .returns(rectInkscapeSVG);
+    .returns(rectInkscapeSVG as InkscapeSVG);
+
+
+  const inkscapeSVGParser = new _InkscapeSVGParser({
+    svgson,
+    initInkscapeSVGFn,
+    svgAttributesSchema,
+    elementParserFactory,
+    transformer,
+  });
 
   let found = inkscapeSVGParser.parse(rectSVGString);
   const wanted = rectInkscapeSVG;
@@ -76,10 +87,15 @@ t.test('parse correctly parses', t => {
     .received()
     .parse(rectSVGSvgson.attributes);
 
-  t.equal(rectSVGSvgsonElements.length, elementParsers.length);
+  transformer
+    .received()
+    .addForUserlandConversion({ scaleFactor: 3.779527559055118, centerPoint: [-1920 / 2, -1080 / 2] });
+
   for (let i = 0; i < rectSVGSvgsonElements.length; i++) {
-    elementParserFactory.received().init(rectSVGSvgsonElements[i]);
-    rectElementParser.received().parse(rectSVGSvgsonElements[i]);
+    const element = rectSVGSvgsonElements[i];
+    elementParserFactory.received().init(element);
+    rectElementParser.received()
+      .parse({ iNode: element satisfies INode, transformer: newTransformer });
   }
   // - end verify internal function calls -
 

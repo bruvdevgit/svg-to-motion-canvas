@@ -1,8 +1,12 @@
 import myzod, { Infer } from "myzod";
 import { ObjectOptions, PathOptions } from "myzod/libs/types";
+import { TRANSFORM_ATTRIBUTE_MATRIX_VALUE_REGEX } from "../../transformer/TransformAttributeParser";
 
 const _groupElementAttributesSchema = myzod.object({
   id: myzod.string().pattern(/^[A-Za-z]+[A-Za-z0-9\-]*$/),
+  transform: myzod.string()
+    .pattern(TRANSFORM_ATTRIBUTE_MATRIX_VALUE_REGEX)
+    .optional(),
 }).allowUnknownKeys(true);
 
 export type GroupElementAttributes = Infer<typeof _groupElementAttributesSchema>;

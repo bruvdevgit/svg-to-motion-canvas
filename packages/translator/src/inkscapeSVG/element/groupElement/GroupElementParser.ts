@@ -1,11 +1,12 @@
 import { INode } from "svgson";
 import { GroupElementAttributesSchema } from './GroupElementAttributesSchema';
 import { initGroupElement, InitGroupElementFn, GroupElement, GroupElementFields } from './GroupElement';
-import { ElementParser } from '../ElementParser';
+import { ElementParser, ParseFnArgs } from '../ElementParser';
 import { initGroupElementAttributesSchema } from './GroupElementAttributesSchema';
 import { InitElementParserFn } from '../ElementParser';
 import { Element as InkscapeSVGElement } from '../Element';
 import { ElementParserFactory } from '../ElementParserFactory';
+import { Transformer } from '../../transformer/Transformer';
 
 export class _GroupElementParser implements ElementParser {
   constructor(public deps: {
@@ -15,15 +16,24 @@ export class _GroupElementParser implements ElementParser {
   }) {
   }
 
-  parse(iNode: INode): GroupElement {
+  parse({ iNode, transformer: transformerFromUptree }: ParseFnArgs): GroupElement {
     const {
       id,
+      transform,
     } = this.deps.svgGroupElementSchema.parse(iNode.attributes);
 
+    let transformer: Transformer = transformerFromUptree;
+    if (transform != null) {
+      transformer = transformer.addFromTransformAttribute(transform);
+    }
+
     let children: InkscapeSVGElement[] = iNode.children
-      .map((node: INode) => {
-        const parser = this.deps.elementParserFactory.init(node);
-        return parser.parse(node);
+      .map((iNode: INode) => {
+        const parser = this.deps.elementParserFactory.init(iNode);
+        return parser.parse({
+          iNode,
+          transformer,
+        });
       });
 
     let props: GroupElementFields = {

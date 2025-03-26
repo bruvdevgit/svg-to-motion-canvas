@@ -4,6 +4,7 @@ import { initInkscapeSVGAttributesSchema, InkscapeSVGAttributesSchema } from './
 import { initSvgsonWrapper, SvgsonWrapper } from '../wrappers/SvgsonWrapper';
 import { ElementParserFactory, initElementParserFactory } from './element/ElementParserFactory';
 import { INode } from "svgson";
+import { initTransformer, Transformer } from './transformer/Transformer';
 
 export interface InkscapeSVGParser {
   parse(str: string): InkscapeSVG;
@@ -15,6 +16,7 @@ export class _InkscapeSVGParser implements InkscapeSVGParser {
     initInkscapeSVGFn: InitInkscapeSVGFn,
     svgAttributesSchema: InkscapeSVGAttributesSchema,
     elementParserFactory: ElementParserFactory,
+    transformer: Transformer,
   }) {
   }
 
@@ -44,10 +46,18 @@ export class _InkscapeSVGParser implements InkscapeSVGParser {
     if (!svgsonObjChildrenElements)
       throw RangeError(`This inkscape SVG is in an invalid format`);
 
+    const vBoxHeight = viewBox.height - viewBox.minY;
+    const vBoxWidth = viewBox.width - viewBox.minX;
+    const scaleFactor = ((height - width) / (vBoxHeight - vBoxWidth));
+    const centerPoint: [number, number] = [(-1 * width) / 2, (-1 * height) / 2];
+
+    const transformer = this.deps.transformer
+      .addForUserlandConversion({ scaleFactor, centerPoint });
+
     let elements: InkscapeSVGElement[] = svgsonObjChildrenElements
-      .map((node: INode) => {
-        const parser = this.deps.elementParserFactory.init(node);
-        return parser.parse(node);
+      .map((iNode: INode) => {
+        const parser = this.deps.elementParserFactory.init(iNode);
+        return parser.parse({ iNode, transformer });
       });
 
     return this.deps.initInkscapeSVGFn({
@@ -66,6 +76,7 @@ export function initInkscapeSVGParser(): InkscapeSVGParser {
     initInkscapeSVGFn: initInkscapeSVG,
     svgAttributesSchema: initInkscapeSVGAttributesSchema(),
     elementParserFactory: initElementParserFactory(),
+    transformer: initTransformer(),
   });
 }
 /* c8 ignore stop */

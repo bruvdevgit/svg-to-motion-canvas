@@ -2,6 +2,7 @@ import { Node as MotionCanvasNode } from '../../../motionCanvasNodeTree/node/Nod
 import { initRectNode, InitRectNode, RectNodeFields } from '../../../motionCanvasNodeTree/node/rectNode/RectNode';
 import { StyleAttributes } from '../../styleAttribute/StyleAttributeParser';
 import { Element } from '../Element';
+import { Transformer } from '../../transformer/Transformer';
 
 export interface RectElementFields extends StyleAttributes {
   label?: string;
@@ -13,6 +14,7 @@ export interface RectElementFields extends StyleAttributes {
   width: number;
   height: number;
   children: Element[];
+  transformer?: Transformer;
 }
 
 export interface RectElement
@@ -41,6 +43,7 @@ export class _RectElement implements RectElement {
   strokeOpacity?: number = 0;
   paintOrder: string = '';
   children: Element[] = [];
+  transformer?: Transformer | undefined;
 
   constructor(public deps: {
     initMotionCanvasRectNodeFn: InitRectNode,
@@ -49,16 +52,29 @@ export class _RectElement implements RectElement {
   }
 
   toMotionCanvasNodes(): MotionCanvasNode[] {
+    const pos = ([]: [number, number]): [number, number] => {
+      return this.transformer != undefined
+        ? this.transformer.applyToPosition([this.x, this.y])
+        : [this.x, this.y];
+    }
+
+    const scalar = (val?: number): number | undefined => {
+      if (val == undefined) return undefined;
+      return this.transformer != undefined
+        ? this.transformer.applyToScalar(val)
+        : val;
+    }
+
     return [this.deps.initMotionCanvasRectNodeFn({
       refName: this.label ?? this.id,
-      width: this.width,
-      height: this.height,
-      topLeft: [this.x, this.y],
+      width: scalar(this.width),
+      height: scalar(this.height),
+      topLeft: pos([this.x, this.y]),
       fill: this.fill,
       stroke: this.stroke,
-      lineWidth: this.strokeWidth,
+      lineWidth: scalar(this.strokeWidth),
       ...(this.ry != undefined || this.rx != undefined
-        ? { radius: this.ry ?? this.rx }
+        ? { radius: scalar(this.ry) ?? scalar(this.rx) }
         : {}),
       children: this.children.map(child => child.toMotionCanvasNodes()).flat(),
     } satisfies RectNodeFields,

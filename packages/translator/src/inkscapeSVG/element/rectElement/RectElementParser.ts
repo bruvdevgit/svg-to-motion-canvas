@@ -1,12 +1,13 @@
 import { INode } from "svgson";
 import { RectElementAttributesSchema } from './RectElementAttributesSchema';
 import { initRectElement, InitRectElementFn, RectElement, RectElementFields } from './RectElement';
-import { ElementParser } from '../ElementParser';
+import { ElementParser, ParseFnArgs } from '../ElementParser';
 import { initRectElementAttributesSchema } from './RectElementAttributesSchema';
 import { InitElementParserFn } from '../ElementParser';
 import { initStyleAttributeParser, StyleAttributeParser } from '../../styleAttribute/StyleAttributeParser';
 import { Element as InkscapeSVGElement } from '../Element';
 import { ElementParserFactory } from '../ElementParserFactory';
+import { Transformer } from '../../transformer/Transformer';
 
 export class _RectElementParser implements ElementParser {
   constructor(public deps: {
@@ -17,7 +18,7 @@ export class _RectElementParser implements ElementParser {
   }) {
   }
 
-  parse(iNode: INode): RectElement {
+  parse({ iNode, transformer: transformerFromUptree }: ParseFnArgs): RectElement {
     const {
       'inkscape:label': label,
       id,
@@ -28,6 +29,7 @@ export class _RectElementParser implements ElementParser {
       width,
       height,
       style,
+      transform,
     } = this.deps.svgRectElementSchema.parse(iNode.attributes);
 
     const {
@@ -43,10 +45,18 @@ export class _RectElementParser implements ElementParser {
       paintOrder,
     } = this.deps.svgElementStyleAttributeParser.parse(style);
 
+    let transformer: Transformer = transformerFromUptree;
+    if (transform != null) {
+      transformer = transformer.addFromTransformAttribute(transform);
+    }
+
     let children: InkscapeSVGElement[] = iNode.children
-      .map((node: INode) => {
-        const parser = this.deps.elementParserFactory.init(node);
-        return parser.parse(node);
+      .map((iNode: INode) => {
+        const parser = this.deps.elementParserFactory.init(iNode);
+        return parser.parse({
+          iNode,
+          transformer
+        });
       });
 
     let props: RectElementFields = {
@@ -69,6 +79,7 @@ export class _RectElementParser implements ElementParser {
       strokeOpacity,
       paintOrder,
       children,
+      transformer,
     };
 
     return this.deps.initRectElementFn(props);
@@ -77,7 +88,8 @@ export class _RectElementParser implements ElementParser {
 
 /* c8 ignore start */
 export const initRectElementParser: InitElementParserFn
-  = (elementParserFactory: ElementParserFactory) => new _RectElementParser({
+  = (elementParserFactory: ElementParserFactory,
+  ) => new _RectElementParser({
     svgRectElementSchema: initRectElementAttributesSchema(),
     initRectElementFn: initRectElement,
     svgElementStyleAttributeParser: initStyleAttributeParser(),

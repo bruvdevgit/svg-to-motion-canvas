@@ -5,11 +5,10 @@ import { RectElementAttributesSchema } from './RectElementAttributesSchema';
 import { StyleAttributeParser } from '../../styleAttribute/StyleAttributeParser';
 import { InitRectElementFn, RectElement, RectElementFields } from './RectElement';
 import { rects } from './testData';
-import { Node as MotionCanvasNode } from '../../../motionCanvasNodeTree/node/Node';
 import { ElementParserFactory } from '../ElementParserFactory';
-import { INode } from 'svgson';
-import { ElementParser } from '../ElementParser';
+import { ElementParser, ParseFnArgs } from '../ElementParser';
 import { Element } from '../Element';
+import { Transformer } from '../../transformer/Transformer';
 
 t.test('parse correctly parses', t => {
   for (let i = 0; i < rects.length; i++) {
@@ -19,6 +18,8 @@ t.test('parse correctly parses', t => {
       .returns(rects[i].attributes);
 
     const rectElement = Substitute.for<RectElement>();
+
+    const transformer = Substitute.for<Transformer>();
 
     // A "Jacket" is a concept I made up:
     // It's an object that's made just to have the function
@@ -31,7 +32,7 @@ t.test('parse correctly parses', t => {
     }
     const initRectElementFnJacket = Substitute.for<InitRectElementFnJacket>();
     initRectElementFnJacket
-      .fn(rects[i].props)
+      .fn({ ...rects[i].props, transformer: transformer as Transformer } as RectElementFields)
       .returns(rectElement);
 
     const svgElementStyleAttributeParser = Substitute.for<StyleAttributeParser>();
@@ -48,12 +49,15 @@ t.test('parse correctly parses', t => {
       elementParserFactory,
     });
 
-    const found: RectElement = rectElementParser.parse(rects[i].svgsonNode);
+    const found: RectElement = rectElementParser.parse({
+      iNode: rects[i].svgsonNode,
+      transformer: transformer as Transformer
+    } satisfies ParseFnArgs);
     const wanted: RectElement = rectElement;
 
     // - start verify internal function calls -
     initRectElementFnJacket.received()
-      .fn(rects[i].props);
+      .fn({ ...rects[i].props, transformer: transformer as Transformer } as RectElementFields);
 
     svgRectElementSchema
       .received()
@@ -89,9 +93,11 @@ t.test('parse correctly parses with sub-children', t => {
     .init(node)
     .returns(childrenParsers[i]));
 
+  const transformer = Substitute.for<Transformer>();
+
   childrenParsers
     .forEach((parser, i) => parser
-      .parse(childrenINodes[i])
+      .parse({ iNode: childrenINodes[i], transformer } satisfies ParseFnArgs)
       .returns(childrenInkscapeSVGElements[i]));
 
   // end the provisions for the children
@@ -115,7 +121,7 @@ t.test('parse correctly parses with sub-children', t => {
   }
   const initRectElementFnJacket = Substitute.for<InitRectElementFnJacket>();
   initRectElementFnJacket
-    .fn({ ...rects[0].props, children: childrenInkscapeSVGElements })
+    .fn({ ...rects[0].props, children: childrenInkscapeSVGElements, transformer })
     .returns(rectElement);
 
   const svgElementStyleAttributeParser = Substitute.for<StyleAttributeParser>();
@@ -132,7 +138,10 @@ t.test('parse correctly parses with sub-children', t => {
   });
 
   const found: RectElement = rectElementParser.parse({
-    ...rects[0].svgsonNode, children: childrenINodes
+    iNode: {
+      ...rects[0].svgsonNode, children: childrenINodes
+    },
+    transformer,
   });
   const wanted: RectElement = rectElement;
 
@@ -146,13 +155,11 @@ t.test('parse correctly parses with sub-children', t => {
   childrenParsers
     .forEach((parser, i) => parser
       .received()
-      .parse(childrenINodes[i])
+      .parse({ iNode: childrenINodes[i], transformer } satisfies ParseFnArgs)
     );
 
-
-
   initRectElementFnJacket.received()
-    .fn({ ...rects[0].props, children: childrenInkscapeSVGElements });
+    .fn({ ...rects[0].props, children: childrenInkscapeSVGElements, transformer });
 
   svgRectElementSchema
     .received()
@@ -167,3 +174,6 @@ t.test('parse correctly parses with sub-children', t => {
   t.end();
 });
 
+////TODO: implement
+//t.test('parse correctly parses when there\'s a transform attribute', t => {
+//});
