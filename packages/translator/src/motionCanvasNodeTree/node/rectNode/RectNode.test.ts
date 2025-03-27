@@ -32,24 +32,21 @@ t.test('toJSXComponent correctly builds JSXComponent with no children', t => {
       {
         field: {
           key: 'width',
-          value: 'scaleCoord(44.620049)',
-          removeQuotesFromValue: true,
+          value: 44.620049,
         } as JSXComponentPropField,
         prop: Substitute.for<JSXComponentProp>(),
       },
       {
         field: {
           key: 'height',
-          value: 'scaleCoord(44.620049)',
-          removeQuotesFromValue: true,
+          value: 44.620049,
         } as JSXComponentPropField,
         prop: Substitute.for<JSXComponentProp>(),
       },
       {
         field: {
           key: 'topLeft',
-          value: ['coordX(7.3198218)', 'coordY(218.05432)'],
-          removeQuotesFromValue: true,
+          value: [7.3198218, 218.05432],
         } as JSXComponentPropField,
         prop: Substitute.for<JSXComponentProp>(),
       },
@@ -63,16 +60,14 @@ t.test('toJSXComponent correctly builds JSXComponent with no children', t => {
       {
         field: {
           key: 'lineWidth',
-          value: 'scaleCoord(0.942981)',
-          removeQuotesFromValue: true,
+          value: 0.942981,
         } as JSXComponentPropField,
         prop: Substitute.for<JSXComponentProp>(),
       },
       {
         field: {
           key: 'radius',
-          value: 'scaleCoord(22.310024)',
-          removeQuotesFromValue: true,
+          value: 22.310024,
         } as JSXComponentPropField,
         prop: Substitute.for<JSXComponentProp>(),
       },
