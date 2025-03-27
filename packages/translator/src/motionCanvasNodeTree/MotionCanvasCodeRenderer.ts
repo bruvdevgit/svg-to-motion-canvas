@@ -18,7 +18,7 @@ export interface MotionCanvasCodeRenderer {
 export class _MotionCanvasCodeRenderer implements MotionCanvasCodeRenderer {
 
 	render(f: OutputFileFields): string {
-		const result = `
+		const result = `\
 import { Rect, Node } from "@motion-canvas/2d";
 import { createRef } from '@motion-canvas/core';
 

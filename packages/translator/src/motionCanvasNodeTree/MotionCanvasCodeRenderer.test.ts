@@ -81,8 +81,7 @@ t.test('render gives correctly constructed string', t => {
 
 	const found = motionCanvasCodeRenderer.render(fields);
 
-	const wanted = `
-import { Rect, Node } from "@motion-canvas/2d";
+	const wanted = `import { Rect, Node } from "@motion-canvas/2d";
 import { createRef } from '@motion-canvas/core';
 
 export function rects1920By1080(node: Node) {
