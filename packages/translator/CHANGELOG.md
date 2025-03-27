@@ -1,5 +1,11 @@
 # @svg-to-motion-canvas/translator
 
+## 0.0.13
+
+### Patch Changes
+
+- dcb5f88: bug fix: removed the function calls from the Rect Motion Canvas Node formatting
+
 ## 0.0.12
 
 ### Patch Changes
