@@ -1,3 +1,4 @@
+import { Position } from "../../../../utilities/Position";
 import { OptionallyInitTransformDefinitionFn, TransformDefinition, TransformDefinitionFields } from "../TransformDefinition";
 
 export interface TranslateFields {
@@ -14,7 +15,7 @@ export class _Translate implements TransformDefinition {
     this.translateY = fields.translateY;
   }
 
-  applyToPosition(position: [number, number]): [number, number] {
+  applyToPosition(position: Position<number>): Position<number> {
     const [x, y] = position;
     return [this.translateX + x, this.translateY + y];
   }

@@ -4,6 +4,7 @@ import { _Transformer, AddForUserlandConversionFnArgs } from './Transformer';
 import { TransformAttributeParser } from './TransformAttributeParser';
 import { TransformDefinitionFactory } from './transformDefinition/TransformDefinitionFactory';
 import { TransformDefinition } from './transformDefinition/TransformDefinition';
+import { Position } from '../../utilities/Position';
 
 t.test('addFromTransformAttribute works', t => {
   const transformAttributeParser = Substitute.for<TransformAttributeParser>();
@@ -119,7 +120,7 @@ t.test('applyToPosition works', t => {
   const transformAttributeParser = Substitute.for<TransformAttributeParser>();
   const transformDefinitionFactory = Substitute.for<TransformDefinitionFactory>();
 
-  const positionSteps: [number, number][] = [
+  const positionSteps: Position<number>[] = [
     [1, 2], [-3, 11], [12, 42], [-1299, 0], [-99, -99]
   ];
 

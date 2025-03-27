@@ -1,3 +1,4 @@
+import { Position } from "../../../../utilities/Position";
 import {
   OptionallyInitTransformDefinitionFn,
   TransformDefinition,
@@ -16,7 +17,7 @@ export class _Rotate implements TransformDefinition {
     this.rotation = fields.rotation;
   }
 
-  applyToPosition(_position: [number, number]): [number, number] {
+  applyToPosition(_position: Position<number>): Position<number> {
     throw new Error('TODO: implement');
   }
 

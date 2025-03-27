@@ -1,3 +1,4 @@
+import { Position } from "../../../../utilities/Position";
 import { OptionallyInitTransformDefinitionFn, TransformDefinition, TransformDefinitionFields } from "../TransformDefinition";
 
 // https://developer.mozilla.org/en-US/docs/Web/SVG/Reference/Attribute/transform#skewx
@@ -12,7 +13,7 @@ export class _SkewX implements TransformDefinition {
     this.skewX = fields.skewX;
   }
 
-  applyToPosition(_position: [number, number]): [number, number] {
+  applyToPosition(_position: Position<number>): Position<number> {
     throw new Error('TODO: implement');
   }
 

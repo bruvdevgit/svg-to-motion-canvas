@@ -1,3 +1,4 @@
+import { Position } from "../../../utilities/Position";
 import { RotateFields } from "./rotate/Rotate";
 import { ScaleFields } from "./scale/Scale";
 import { SkewXFields } from "./skewX/SkewX";
@@ -10,7 +11,7 @@ export type TransformDefinitionFields =
   | TranslateFields;
 
 export interface TransformDefinition {
-  applyToPosition(position: [number, number]): [number, number];
+  applyToPosition(position: Position<number>): Position<number>;
   applyToScalar(length: number): number;
 }
 

@@ -1,3 +1,4 @@
+import { Position } from "../../utilities/Position";
 import {
   initTransformAttributeParser, TransformAttributeParser
 } from "./TransformAttributeParser";
@@ -7,13 +8,13 @@ import {
 } from "./transformDefinition/TransformDefinitionFactory";
 
 export interface AddForUserlandConversionFnArgs {
-  scaleFactor: number, centerPoint: [number, number]
+  scaleFactor: number, centerPoint: Position<number>
 }
 
 export interface Transformer {
   addFromTransformAttribute(value: string): Transformer;
   addForUserlandConversion(args: AddForUserlandConversionFnArgs): Transformer;
-  applyToPosition(position: [number, number]): [number, number];
+  applyToPosition(position: Position<number>): Position<number>;
   applyToScalar(length: number): number;
 }
 
@@ -52,7 +53,7 @@ export class _Transformer implements Transformer {
       [scaleDefinition, translateDefinition]);
   }
 
-  applyToPosition(pos: [number, number]): [number, number] {
+  applyToPosition(pos: Position<number>): Position<number> {
     let position = pos;
     this.definitions.forEach(def => position = def.applyToPosition(position));
     this.lastDefinitions.forEach(def => position = def.applyToPosition(position));

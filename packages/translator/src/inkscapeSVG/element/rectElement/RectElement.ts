@@ -3,6 +3,7 @@ import { initRectNode, InitRectNode, RectNodeFields } from '../../../motionCanva
 import { StyleAttributes } from '../../styleAttribute/StyleAttributeParser';
 import { Element } from '../Element';
 import { Transformer } from '../../transformer/Transformer';
+import { Position } from '../../../utilities/Position';
 
 export interface RectElementFields extends StyleAttributes {
   label?: string;
@@ -52,7 +53,7 @@ export class _RectElement implements RectElement {
   }
 
   toMotionCanvasNodes(): MotionCanvasNode[] {
-    const pos = ([]: [number, number]): [number, number] => {
+    const pos = ([]: Position<number>): Position<number> => {
       return this.transformer != undefined
         ? this.transformer.applyToPosition([this.x, this.y])
         : [this.x, this.y];

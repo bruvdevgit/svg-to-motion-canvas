@@ -17,11 +17,15 @@ export interface Expression {
   add(expression: Expression): this;
 }
 
-export class _Expression {
+export class _Expression implements Expression {
   constructor(public expression: string) { }
 
   getExpression(): string {
     return this.expression;
+  }
+
+  add(expression: Expression): this {
+    throw Error('Not implemented');
   }
 }
 

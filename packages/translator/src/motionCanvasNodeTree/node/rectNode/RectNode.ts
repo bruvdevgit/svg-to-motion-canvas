@@ -5,11 +5,12 @@ import { Node as MotionCanvasNode, NodeFields } from '../Node';
 import { PropFields as JSXComponentPropField } from '../jsxComponent/prop/Prop';
 import { CamelCaseWrapper, initCamelCaseWrapper } from '../../../wrappers/CamelCaseWrapper';
 import { NodeReference } from '../../MotionCanvasCodeRenderer';
+import { Position } from '../../../utilities/Position';
 
 export interface RectNodeFields extends NodeFields {
   width?: number;
   height?: number;
-  topLeft?: [number, number];
+  topLeft?: Position<number>;
   fill?: string;
   stroke?: string;
   lineWidth?: number;
@@ -27,7 +28,7 @@ export class _RectNode implements RectNode {
   refName: string = '';
   width?: number;
   height?: number;
-  topLeft?: [number, number];
+  topLeft?: Position<number>;
   fill?: string;
   stroke?: string;
   lineWidth?: number;

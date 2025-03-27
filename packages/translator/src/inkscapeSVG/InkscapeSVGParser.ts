@@ -5,6 +5,7 @@ import { initSvgsonWrapper, SvgsonWrapper } from '../wrappers/SvgsonWrapper';
 import { ElementParserFactory, initElementParserFactory } from './element/ElementParserFactory';
 import { INode } from "svgson";
 import { initTransformer, Transformer } from './transformer/Transformer';
+import { Position } from '../utilities/Position';
 
 export interface InkscapeSVGParser {
   parse(str: string): InkscapeSVG;
@@ -49,7 +50,7 @@ export class _InkscapeSVGParser implements InkscapeSVGParser {
     const vBoxHeight = viewBox.height - viewBox.minY;
     const vBoxWidth = viewBox.width - viewBox.minX;
     const scaleFactor = ((height - width) / (vBoxHeight - vBoxWidth));
-    const centerPoint: [number, number] = [(-1 * width) / 2, (-1 * height) / 2];
+    const centerPoint: Position<number> = [(-1 * width) / 2, (-1 * height) / 2];
 
     const transformer = this.deps.transformer
       .addForUserlandConversion({ scaleFactor, centerPoint });

@@ -6,6 +6,7 @@ import { InitRectNode, RectNode, RectNodeFields } from '../../../motionCanvasNod
 import { Node as MotionCanvasNode } from '../../../motionCanvasNodeTree/node/Node';
 import { Element } from '../Element';
 import { Transformer } from '../../transformer/Transformer';
+import { Position } from '../../../utilities/Position';
 
 t.test('constructor correctly assigns props to same-name fields', t => {
   for (let i = 0; i < rects.length; i++) {
@@ -146,7 +147,7 @@ t.test('toMotionCanvasNodes correctly translates to MotionCanvasNode when there\
   const transformedRectNodeFields = {
     width: 2.8373,
     height: 2.7848,
-    topLeft: [91.06526, 1.7019] as [number, number],
+    topLeft: [91.06526, 1.7019] as Position<number>,
     lineWidth: 10.306,
   };
   transformer

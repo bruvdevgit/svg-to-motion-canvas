@@ -1,3 +1,4 @@
+import { Position } from "../../../../utilities/Position";
 import { OptionallyInitTransformDefinitionFn, TransformDefinition, TransformDefinitionFields } from "../TransformDefinition";
 
 // https://developer.mozilla.org/en-US/docs/Web/SVG/Reference/Attribute/transform#scale
@@ -18,7 +19,7 @@ export class _Scale implements TransformDefinition {
     this.scaleY = scaleY;
   }
 
-  applyToPosition([x, y]: [number, number]): [number, number] {
+  applyToPosition([x, y]: Position<number>): Position<number> {
     return [x * this.scaleX, y * this.scaleX];
   }
 
