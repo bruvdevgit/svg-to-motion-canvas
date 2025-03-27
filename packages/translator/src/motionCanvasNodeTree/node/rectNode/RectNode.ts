@@ -2,7 +2,7 @@ import { JSXComponent, JSXComponentFields } from '../jsxComponent/JSXComponent';
 import { initJSXComponentFactoryFn, JSXComponentFactory } from '../jsxComponent/JSXComponentFactory';
 import { initJSXComponentPropFactoryFn, PropFactory as JSXComponentPropFactory } from '../jsxComponent/prop/PropFactory';
 import { Node as MotionCanvasNode, NodeFields } from '../Node';
-import { PropField as JSXComponentPropField } from '../jsxComponent/prop/Prop';
+import { PropFields as JSXComponentPropField } from '../jsxComponent/prop/Prop';
 import { CamelCaseWrapper, initCamelCaseWrapper } from '../../../wrappers/CamelCaseWrapper';
 import { NodeReference } from '../../MotionCanvasCodeRenderer';
 

@@ -4,15 +4,14 @@ export type PropFieldValue = string | string[]
   | number | number[]
   | boolean | boolean[];
 
-// TODO: rename to PropFields
-export interface PropField {
+export interface PropFields {
   key: string;
   value: PropFieldValue;
   removeQuotesFromValue?: boolean;
   turnValueToCamelCase?: boolean;
 }
 
-export interface Prop extends PropField {
+export interface Prop extends PropFields {
   toStringLine(indentPrefix: string): string;
 }
 
@@ -24,7 +23,7 @@ export class _Prop implements Prop {
 
   constructor(public deps: {
     camelCaseWrapper: CamelCaseWrapper,
-  }, props: PropField) {
+  }, props: PropFields) {
     Object.assign(this, props);
   }
 
@@ -76,9 +75,9 @@ export class _Prop implements Prop {
 
 }
 
-export type InitPropFn = (prop: PropField) => Prop;
+export type InitPropFn = (prop: PropFields) => Prop;
 
 export const initPropFn: InitPropFn
-  = (prop: PropField) => new _Prop({
+  = (prop: PropFields) => new _Prop({
     camelCaseWrapper: initCamelCaseWrapper(),
   }, prop);

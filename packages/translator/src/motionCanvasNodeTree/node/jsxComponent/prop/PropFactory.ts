@@ -1,6 +1,6 @@
 import {
   InitPropFn as InitJSXComponentPropFn,
-  PropField as JSXComponentPropField,
+  PropFields as JSXComponentPropField,
   Prop as JSXComponentProp,
   initPropFn as initJSXComponentPropFn,
 } from './Prop';

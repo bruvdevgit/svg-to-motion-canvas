@@ -1,6 +1,6 @@
-import { PropField } from './Prop';
+import { PropFields } from './Prop';
 
-export const data: { fields: PropField, indentPrefix: string, stringified: string }[] = [
+export const data: { fields: PropFields, indentPrefix: string, stringified: string }[] = [
   {
     fields: {
       key: 'ref',
