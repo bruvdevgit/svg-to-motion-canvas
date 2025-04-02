@@ -42,7 +42,6 @@ export interface NumericalExpression {
   divide(value: NumberOrNumericalExpression): NumericalExpression;
   multiply(value: NumberOrNumericalExpression): NumericalExpression;
 
-  toContainerNode(operator: Operator): Node;
   getString(): string;
   getRootNodeAfterSettingOperator(operator?: Operator): Node;
 }
@@ -126,10 +125,6 @@ export class _NumericalExpression implements NumericalExpression {
     }
 
     return this.root;
-  }
-
-  toContainerNode(operator: Operator): Node {
-    return this.deps.initContainerNodeFn(operator, [this.root]);
   }
 }
 

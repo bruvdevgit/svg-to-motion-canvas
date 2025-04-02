@@ -1,2 +1,3 @@
-export type Position<ValueOrExpression>
-  = [ValueOrExpression, ValueOrExpression];
+import { NumberOrNumericalExpression } from "./numericalExpression/NumericalExpression";
+
+export type Position<T extends NumberOrNumericalExpression> = [T, T];
