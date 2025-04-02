@@ -128,6 +128,7 @@ export class _NumericalExpression implements NumericalExpression {
   }
 }
 
+// TODO: correct name to InitNumericalExpressionFn
 export type InitNumericaExpressionFn
   = (value: number) => NumericalExpression;
 
