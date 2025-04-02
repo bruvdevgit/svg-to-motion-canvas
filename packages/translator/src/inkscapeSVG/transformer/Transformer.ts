@@ -8,7 +8,8 @@ import {
 } from "./transformDefinition/TransformDefinitionFactory";
 
 export interface AddForUserlandConversionFnArgs {
-  scaleFactor: number, centerPoint: Position<number>
+  scaleFactor: number,
+  centerPoint: Position<number>
 }
 
 export interface Transformer {
