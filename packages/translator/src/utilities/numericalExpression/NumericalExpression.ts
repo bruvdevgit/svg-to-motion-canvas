@@ -53,7 +53,7 @@ export class _NumericalExpression implements NumericalExpression {
     initContainerNodeFn: InitContainerNodeFn,
     initLeafNodeFn: InitLeafNodeFn,
   },
-    start: number, root?: Node,) {
+    start: NumberOrNumericalExpression, root?: Node,) {
     // the last arg "root" is here for testing purposes
     if (root == null) {
       this.root = deps.initLeafNodeFn(Operator.FirstTerm, start);
@@ -130,10 +130,11 @@ export class _NumericalExpression implements NumericalExpression {
 
 // TODO: correct name to InitNumericalExpressionFn
 export type InitNumericaExpressionFn
-  = (value: number) => NumericalExpression;
+  = (value: NumberOrNumericalExpression) => NumericalExpression;
 
+// TODO: correct name to InitNumericalExpression
 export const initNumbericalExpression: InitNumericaExpressionFn
-  = (value: number) => new _NumericalExpression({
+  = (value: NumberOrNumericalExpression) => new _NumericalExpression({
     initContainerNodeFn: initContainerNode,
     initLeafNodeFn: initLeafNode,
   }, value);
