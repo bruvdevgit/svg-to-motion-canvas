@@ -1,5 +1,11 @@
 # @svg-to-motion-canvas/translator
 
+## 0.0.16
+
+### Patch Changes
+
+- c511ad6: Fixing positioning bug try1
+
 ## 0.0.15
 
 ### Patch Changes
