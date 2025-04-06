@@ -1,5 +1,11 @@
 # @svg-to-motion-canvas/translator
 
+## 0.0.14
+
+### Patch Changes
+
+- b0495e4: Reimplemented transformer to give some transparency to calculations
+
 ## 0.0.13
 
 ### Patch Changes
