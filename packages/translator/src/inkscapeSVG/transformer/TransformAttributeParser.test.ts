@@ -64,8 +64,8 @@ t.test('parse works', t => {
 
   const found = transformerParser.parse(matrix);
   const wanted = [
-    translateTransformDefinition,
     scaleXTransformDefinition,
+    translateTransformDefinition,
   ];
 
   // start testing internal calls

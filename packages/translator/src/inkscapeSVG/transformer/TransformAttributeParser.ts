@@ -34,13 +34,6 @@ export class _TransformAttributeParser implements TransformAttributeParser {
 
     let [_, a, b, c, d, e, f] = match.map(Number);
 
-    if (e != 0 || f != 0) {
-      transformDefinitions.push(this.deps.initTranslateFn({
-        translateX: e,
-        translateY: f
-      }));
-    }
-
     // Compute scale factors
     const scaleX = Math.sqrt(a * a + b * b);
     const scaleY = Math.sqrt(c * c + d * d);
@@ -51,6 +44,14 @@ export class _TransformAttributeParser implements TransformAttributeParser {
         scaleY,
       }));
     }
+
+    if (e != 0 || f != 0) {
+      transformDefinitions.push(this.deps.initTranslateFn({
+        translateX: e,
+        translateY: f
+      }));
+    }
+
 
     // Compute rotation angle in degrees
     const rotation = Math.atan2(b, a) * (180 / Math.PI);
