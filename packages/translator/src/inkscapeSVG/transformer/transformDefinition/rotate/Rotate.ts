@@ -1,42 +1,32 @@
+import { NumberOrNumericalExpression, NumericalExpression } from "../../../../utilities/numericalExpression/NumericalExpression";
 import { Position } from "../../../../utilities/Position";
 import {
-  OptionallyInitTransformDefinitionFn,
+  Options,
   TransformDefinition,
-  TransformDefinitionFields
 } from "../TransformDefinition";
 
 // https://developer.mozilla.org/en-US/docs/Web/SVG/Reference/Attribute/transform#rotate
 export interface RotateFields {
-  rotation: number,
+  rotation: NumberOrNumericalExpression,
 }
 
 export class _Rotate implements TransformDefinition {
-  rotation: number;
+  rotation: NumberOrNumericalExpression;
 
   constructor(fields: RotateFields) {
     this.rotation = fields.rotation;
   }
 
-  applyToPosition(_position: Position<number>): Position<number> {
+  applyToPosition(_position: Position<NumericalExpression>): Position<NumericalExpression> {
     throw new Error('TODO: implement');
   }
 
-  applyToScalar(_length: number): number {
+  applyToScalar(_length: NumericalExpression): NumericalExpression {
     throw new Error('TODO: implement');
   }
 }
 
-export function isRotateFields(fields: TransformDefinitionFields)
-  : fields is RotateFields {
-  return !Number.isNaN(Number((fields as RotateFields).rotation));
-}
+export type InitRotateFn = (fields: RotateFields) => TransformDefinition
 
-export const optionallyInitRotate: OptionallyInitTransformDefinitionFn
-  = (fields: TransformDefinitionFields) => {
-    if (isRotateFields(fields)) {
-      return new _Rotate(fields);
-    }
-    else {
-      return null;
-    }
-  }
+export const initRotate: InitRotateFn
+  = (fields: RotateFields) => new _Rotate(fields)

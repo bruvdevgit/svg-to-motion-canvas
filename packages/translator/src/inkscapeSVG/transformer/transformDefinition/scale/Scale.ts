@@ -1,46 +1,38 @@
+import { initNumbericalExpression, InitNumericaExpressionFn, NumberOrNumericalExpression, NumericalExpression } from "../../../../utilities/numericalExpression/NumericalExpression";
 import { Position } from "../../../../utilities/Position";
-import { OptionallyInitTransformDefinitionFn, TransformDefinition, TransformDefinitionFields } from "../TransformDefinition";
+import { Options, TransformDefinition } from "../TransformDefinition";
 
 // https://developer.mozilla.org/en-US/docs/Web/SVG/Reference/Attribute/transform#scale
 export interface ScaleFields {
-  scaleX: number,
-  scaleY?: number,
+  scaleX: NumberOrNumericalExpression,
+  scaleY?: NumberOrNumericalExpression,
 }
 
+// NOTE: this class hasn't been implemented 
+// to actually use scaleY yet!
 export class _Scale implements TransformDefinition {
-  scaleX: number;
-  scaleY: number | undefined;
+  scaleX: NumberOrNumericalExpression;
+  scaleY: NumberOrNumericalExpression | undefined;
 
   constructor({ scaleX, scaleY }: ScaleFields) {
     this.scaleX = scaleX;
-    if (scaleY != undefined && scaleY != scaleX) {
-      throw new Error(`initializing Scale TransformDefinition with scaleY != scaleX hasn't been accomodated`);
-    }
-    this.scaleY = scaleY;
+
+    if (scaleY != null)
+      this.scaleY = scaleY;
+
   }
 
-  applyToPosition([x, y]: Position<number>): Position<number> {
-    return [x * this.scaleX, y * this.scaleX];
+  applyToPosition([x, y]: Position<NumericalExpression>): Position<NumericalExpression> {
+    return [x.multiply(this.scaleX), y.multiply(this.scaleX)];
   }
 
-  applyToScalar(length: number): number {
-    return length * this.scaleX;
+  applyToScalar(length: NumericalExpression): NumericalExpression {
+    return length.multiply(this.scaleX);
   }
 }
 
-export function isScaleFields(fields: TransformDefinitionFields)
-  : fields is ScaleFields {
-  const { scaleX, scaleY } = fields as ScaleFields;
-  return !Number.isNaN(Number(scaleX))
-    && scaleY == undefined ? true : !Number.isNaN(Number(scaleY));
-}
+export type InitScaleFn
+  = (fields: ScaleFields) => TransformDefinition;
 
-export const optionallyInitScale: OptionallyInitTransformDefinitionFn
-  = (fields: TransformDefinitionFields) => {
-    if (isScaleFields(fields)) {
-      return new _Scale(fields);
-    }
-    else {
-      return null;
-    }
-  }
+export const initScale: InitScaleFn
+  = (fields: ScaleFields) => new _Scale(fields);

@@ -4,6 +4,7 @@ import { StyleAttributes } from '../../styleAttribute/StyleAttributeParser';
 import { Element } from '../Element';
 import { Transformer } from '../../transformer/Transformer';
 import { Position } from '../../../utilities/Position';
+import { initNumbericalExpression, InitNumericaExpressionFn, NumericalExpression } from '../../../utilities/numericalExpression/NumericalExpression';
 
 export interface RectElementFields extends StyleAttributes {
   label?: string;
@@ -48,22 +49,26 @@ export class _RectElement implements RectElement {
 
   constructor(public deps: {
     initMotionCanvasRectNodeFn: InitRectNode,
+    initNumericalExpressionFn: InitNumericaExpressionFn,
   }, init: RectElementFields) {
     Object.assign(this, init);
   }
 
   toMotionCanvasNodes(): MotionCanvasNode[] {
-    const pos = ([]: Position<number>): Position<number> => {
+    const pos = ([]: Position<number>): Position<NumericalExpression> => {
       return this.transformer != undefined
         ? this.transformer.applyToPosition([this.x, this.y])
-        : [this.x, this.y];
+        : [
+          this.deps.initNumericalExpressionFn(this.x),
+          this.deps.initNumericalExpressionFn(this.y)
+        ];
     }
 
-    const scalar = (val?: number): number | undefined => {
+    const scalar = (val?: number): NumericalExpression | undefined => {
       if (val == undefined) return undefined;
       return this.transformer != undefined
         ? this.transformer.applyToScalar(val)
-        : val;
+        : this.deps.initNumericalExpressionFn(val);
     }
 
     return [this.deps.initMotionCanvasRectNodeFn({
@@ -88,5 +93,6 @@ export type InitRectElementFn = (init: RectElementFields) => RectElement;
 
 export const initRectElement: InitRectElementFn
   = (init: RectElementFields) => new _RectElement({
-    initMotionCanvasRectNodeFn: initRectNode
+    initMotionCanvasRectNodeFn: initRectNode,
+    initNumericalExpressionFn: initNumbericalExpression,
   }, init);

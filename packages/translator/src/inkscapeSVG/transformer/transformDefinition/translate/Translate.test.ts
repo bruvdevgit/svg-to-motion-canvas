@@ -1,41 +1,63 @@
 import t from 'tap';
+import { Arg, Substitute } from '@fluffy-spoon/substitute';
 import { _Translate, TranslateFields } from './Translate';
+import { NumericalExpression } from '../../../../utilities/numericalExpression/NumericalExpression';
 
 t.test('applyToPosition works', t => {
-  [{
-    translate: [123, -82],
-    applyTo: [12, 84],
-    wantedResult: [135, 2]
-  },].forEach(({ translate, applyTo, wantedResult, }) => {
-    const translateDefinition = new _Translate({
-      translateX: translate[0],
-      translateY: translate[1],
-    } satisfies TranslateFields);
+  const translateX = Substitute.for<NumericalExpression>();
+  const translateY = Substitute.for<NumericalExpression>();
 
-    const found = translateDefinition.applyToPosition([applyTo[0], applyTo[1]]);
-    const wanted = [wantedResult[0], wantedResult[1]];
+  const argtranslateX = Substitute.for<NumericalExpression>();
+  argtranslateX
+    .multiply(translateX)
+    .returns(argtranslateX);
 
-    t.same(found, wanted);
-  });
+  const argtranslateY = Substitute.for<NumericalExpression>();
+  argtranslateY
+    .multiply(translateY)
+    .returns(argtranslateY);
+
+  const translateDefinition = new _Translate({
+    translateX, translateY,
+  } satisfies TranslateFields);
+
+  const found = translateDefinition.applyToPosition([argtranslateX, argtranslateY]);
+  const wanted = [argtranslateX, argtranslateY];
+
+  // start testing internal calls
+
+  argtranslateX
+    .received()
+    .add(translateX);
+
+  argtranslateY
+    .received()
+    .add(translateY);
+
+  // end testing internal calls
+
+  t.same(found, wanted);
   t.end();
 });
 
 t.test('applyToScalar works', t => {
-  [{
-    translate: [123, -82],
-    applyTo: 12,
-    wantedResult: 12
-  },].forEach(({ translate, applyTo, wantedResult, }) => {
-    const translateDefinition = new _Translate({
-      translateX: translate[0],
-      translateY: translate[1],
-    } satisfies TranslateFields);
+  const translateX = Substitute.for<NumericalExpression>();
+  const translateY = Substitute.for<NumericalExpression>();
 
-    const found = translateDefinition.applyToScalar(applyTo);
-    const wanted = wantedResult;
+  const argScalar = Substitute.for<NumericalExpression>();
 
-    t.equal(found, wanted);
-  });
+  const translateDefinition = new _Translate({
+    translateX, translateY,
+  } satisfies TranslateFields);
+
+  const found = translateDefinition.applyToScalar(argScalar);
+  const wanted = argScalar;
+
+  // start testing internal calls
+
+  // end testing internal calls
+
+  t.same(found, wanted);
   t.end();
 });
 

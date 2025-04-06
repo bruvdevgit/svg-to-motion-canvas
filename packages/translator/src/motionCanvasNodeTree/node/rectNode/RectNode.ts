@@ -6,15 +6,16 @@ import { PropFields as JSXComponentPropField } from '../jsxComponent/prop/Prop';
 import { CamelCaseWrapper, initCamelCaseWrapper } from '../../../wrappers/CamelCaseWrapper';
 import { NodeReference } from '../../MotionCanvasCodeRenderer';
 import { Position } from '../../../utilities/Position';
+import { NumericalExpression } from '../../../utilities/numericalExpression/NumericalExpression';
 
 export interface RectNodeFields extends NodeFields {
-  width?: number;
-  height?: number;
-  topLeft?: Position<number>;
+  width?: NumericalExpression;
+  height?: NumericalExpression;
+  topLeft?: Position<NumericalExpression>;
   fill?: string;
   stroke?: string;
-  lineWidth?: number;
-  radius?: number;
+  lineWidth?: NumericalExpression;
+  radius?: NumericalExpression;
   children: MotionCanvasNode[];
 }
 
@@ -26,13 +27,13 @@ export class _RectNode implements RectNode {
   // these defaults are necessary because typescript
   // doesn't play nice with Object.assign
   refName: string = '';
-  width?: number;
-  height?: number;
-  topLeft?: Position<number>;
+  width?: NumericalExpression;
+  height?: NumericalExpression;
+  topLeft?: Position<NumericalExpression>;
   fill?: string;
   stroke?: string;
-  lineWidth?: number;
-  radius?: number;
+  lineWidth?: NumericalExpression;
+  radius?: NumericalExpression;
   children: MotionCanvasNode[] = [];
 
   constructor(
@@ -59,17 +60,17 @@ export class _RectNode implements RectNode {
         ...(this.width != null ?
           [this.deps.jsxComponentPropFactory.init({
             key: 'width',
-            value: this.width,
+            value: this.width.getString(),
           } satisfies JSXComponentPropField)] : []),
         ...(this.height != null ?
           [this.deps.jsxComponentPropFactory.init({
             key: 'height',
-            value: this.height,
+            value: this.height.getString(),
           } satisfies JSXComponentPropField)] : []),
         ...(this.topLeft != null ?
           [this.deps.jsxComponentPropFactory.init({
             key: 'topLeft',
-            value: [this.topLeft[0], this.topLeft[1]],
+            value: [this.topLeft[0].getString(), this.topLeft[1].getString()],
           } satisfies JSXComponentPropField)] : []),
         // only mention fill if it's not set to "none"
         ...(this.fill != null && this.fill != 'none' ?
@@ -86,12 +87,12 @@ export class _RectNode implements RectNode {
         ...(this.lineWidth != null ?
           [this.deps.jsxComponentPropFactory.init({
             key: 'lineWidth',
-            value: this.lineWidth,
+            value: this.lineWidth.getString(),
           } satisfies JSXComponentPropField)] : []),
         ...(this.radius != undefined ?
           [this.deps.jsxComponentPropFactory.init({
             key: 'radius',
-            value: this.radius,
+            value: this.radius.getString(),
           } satisfies JSXComponentPropField)] : [])
       ]
       ,

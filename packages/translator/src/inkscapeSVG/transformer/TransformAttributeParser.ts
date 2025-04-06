@@ -1,7 +1,8 @@
+import { initRotate, InitRotateFn } from "./transformDefinition/rotate/Rotate";
+import { initScale, InitScaleFn } from "./transformDefinition/scale/Scale";
+import { initSkewX, InitSkewXFn } from "./transformDefinition/skewX/SkewX";
 import { TransformDefinition } from "./transformDefinition/TransformDefinition";
-import {
-  initTransformDefinitionFactory, TransformDefinitionFactory
-} from "./transformDefinition/TransformDefinitionFactory";
+import { initTranslate, InitTranslateFn } from "./transformDefinition/translate/Translate";
 
 export const TRANSFORM_ATTRIBUTE_MATRIX_VALUE_REGEX =
   /matrix\(([-\d.]+),\s*([-\d.]+),\s*([-\d.]+),\s*([-\d.]+),\s*([-\d.]+),\s*([-\d.]+)\)/;
@@ -13,7 +14,10 @@ export interface TransformAttributeParser {
 // Use https://developer.mozilla.org/en-US/docs/Web/SVG/Reference/Attribute/transform
 export class _TransformAttributeParser implements TransformAttributeParser {
   constructor(public deps: {
-    transformDefinitionFactory: TransformDefinitionFactory,
+    initTranslateFn: InitTranslateFn,
+    initScaleFn: InitScaleFn,
+    initRotateFn: InitRotateFn,
+    initSkewXFn: InitSkewXFn,
   }) {
   }
 
@@ -31,7 +35,7 @@ export class _TransformAttributeParser implements TransformAttributeParser {
     let [_, a, b, c, d, e, f] = match.map(Number);
 
     if (e != 0 || f != 0) {
-      transformDefinitions.push(this.deps.transformDefinitionFactory.init({
+      transformDefinitions.push(this.deps.initTranslateFn({
         translateX: e,
         translateY: f
       }));
@@ -42,7 +46,7 @@ export class _TransformAttributeParser implements TransformAttributeParser {
     const scaleY = Math.sqrt(c * c + d * d);
 
     if (scaleX != 0 || scaleY != 0) {
-      transformDefinitions.push(this.deps.transformDefinitionFactory.init({
+      transformDefinitions.push(this.deps.initScaleFn({
         scaleX,
         scaleY,
       }));
@@ -52,7 +56,7 @@ export class _TransformAttributeParser implements TransformAttributeParser {
     const rotation = Math.atan2(b, a) * (180 / Math.PI);
 
     if (rotation != 0) {
-      transformDefinitions.push(this.deps.transformDefinitionFactory.init({
+      transformDefinitions.push(this.deps.initRotateFn({
         rotation,
       }));
     }
@@ -61,7 +65,7 @@ export class _TransformAttributeParser implements TransformAttributeParser {
     const skewX = Math.atan2(c, d) * (180 / Math.PI);
 
     if (skewX != 0) {
-      transformDefinitions.push(this.deps.transformDefinitionFactory.init({
+      transformDefinitions.push(this.deps.initSkewXFn({
         skewX,
       }));
     }
@@ -74,5 +78,8 @@ export type InitTransformAttributeParserFn = () => TransformAttributeParser;
 
 export const initTransformAttributeParser: InitTransformAttributeParserFn
   = () => new _TransformAttributeParser({
-    transformDefinitionFactory: initTransformDefinitionFactory(),
+    initTranslateFn: initTranslate,
+    initScaleFn: initScale,
+    initRotateFn: initRotate,
+    initSkewXFn: initSkewX,
   });

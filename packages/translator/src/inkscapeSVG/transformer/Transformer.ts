@@ -1,11 +1,11 @@
+import { initNumbericalExpression, InitNumericaExpressionFn, NumericalExpression } from "../../utilities/numericalExpression/NumericalExpression";
 import { Position } from "../../utilities/Position";
 import {
   initTransformAttributeParser, TransformAttributeParser
 } from "./TransformAttributeParser";
+import { initScale, InitScaleFn } from "./transformDefinition/scale/Scale";
 import { TransformDefinition } from "./transformDefinition/TransformDefinition";
-import {
-  TransformDefinitionFactory, initTransformDefinitionFactory
-} from "./transformDefinition/TransformDefinitionFactory";
+import { initTranslate, InitTranslateFn } from "./transformDefinition/translate/Translate";
 
 export interface AddForUserlandConversionFnArgs {
   scaleFactor: number,
@@ -15,14 +15,16 @@ export interface AddForUserlandConversionFnArgs {
 export interface Transformer {
   addFromTransformAttribute(value: string): Transformer;
   addForUserlandConversion(args: AddForUserlandConversionFnArgs): Transformer;
-  applyToPosition(position: Position<number>): Position<number>;
-  applyToScalar(length: number): number;
+  applyToPosition(pos: Position<number>): Position<NumericalExpression>;
+  applyToScalar(len: number): NumericalExpression;
 }
 
 export class _Transformer implements Transformer {
   constructor(public deps: {
     transformAttributeParser: TransformAttributeParser,
-    transformDefinitionFactory: TransformDefinitionFactory,
+    initNumericalExpressionFn: InitNumericaExpressionFn,
+    initTranslateFn: InitTranslateFn,
+    initScaleFn: InitScaleFn,
   }, public definitions: TransformDefinition[] = [],
     // these must be applied last
     public lastDefinitions: TransformDefinition[] = []
@@ -39,14 +41,14 @@ export class _Transformer implements Transformer {
   }: AddForUserlandConversionFnArgs): Transformer {
     // The order of adding scaleDefintion first
     // and translateDefinition second matters
-    const scaleDefinition = this.deps.transformDefinitionFactory.init({
-      scaleX: scaleFactor,
-      scaleY: scaleFactor,
+    const scaleDefinition = this.deps.initScaleFn({
+      scaleX: this.deps.initNumericalExpressionFn(scaleFactor),
+      scaleY: this.deps.initNumericalExpressionFn(scaleFactor),
     });
 
-    const translateDefinition = this.deps.transformDefinitionFactory.init({
-      translateX: centerPoint[0],
-      translateY: centerPoint[1],
+    const translateDefinition = this.deps.initTranslateFn({
+      translateX: this.deps.initNumericalExpressionFn(centerPoint[0]),
+      translateY: this.deps.initNumericalExpressionFn(centerPoint[1]),
     });
 
     return new _Transformer(this.deps,
@@ -54,15 +56,19 @@ export class _Transformer implements Transformer {
       [scaleDefinition, translateDefinition]);
   }
 
-  applyToPosition(pos: Position<number>): Position<number> {
-    let position = pos;
+  applyToPosition(pos: Position<number>): Position<NumericalExpression> {
+    let position: Position<NumericalExpression> = [
+      this.deps.initNumericalExpressionFn(pos[0]),
+      this.deps.initNumericalExpressionFn(pos[1]),
+    ];
+
     this.definitions.forEach(def => position = def.applyToPosition(position));
     this.lastDefinitions.forEach(def => position = def.applyToPosition(position));
     return position;
   }
 
-  applyToScalar(len: number): number {
-    let length = len;
+  applyToScalar(len: number): NumericalExpression {
+    let length: NumericalExpression = this.deps.initNumericalExpressionFn(len);
     this.definitions.forEach(def => length = def.applyToScalar(length));
     this.lastDefinitions.forEach(def => length = def.applyToScalar(length));
     return length;
@@ -75,5 +81,7 @@ export type InitTransformerFn
 export const initTransformer: InitTransformerFn
   = () => new _Transformer({
     transformAttributeParser: initTransformAttributeParser(),
-    transformDefinitionFactory: initTransformDefinitionFactory(),
+    initNumericalExpressionFn: initNumbericalExpression,
+    initTranslateFn: initTranslate,
+    initScaleFn: initScale,
   });

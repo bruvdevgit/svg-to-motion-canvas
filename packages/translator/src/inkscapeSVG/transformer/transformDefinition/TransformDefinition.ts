@@ -1,20 +1,12 @@
+import { NumericalExpression } from "../../../utilities/numericalExpression/NumericalExpression";
 import { Position } from "../../../utilities/Position";
-import { RotateFields } from "./rotate/Rotate";
-import { ScaleFields } from "./scale/Scale";
-import { SkewXFields } from "./skewX/SkewX";
-import { TranslateFields } from "./translate/Translate";
 
-export type TransformDefinitionFields =
-  ScaleFields
-  | SkewXFields
-  | RotateFields
-  | TranslateFields;
-
-export interface TransformDefinition {
-  applyToPosition(position: Position<number>): Position<number>;
-  applyToScalar(length: number): number;
+export interface Options {
+  dontResolveWhenApplying: boolean
 }
 
-export type OptionallyInitTransformDefinitionFn
-  = (fields: TransformDefinitionFields) => TransformDefinition | null;
+export interface TransformDefinition {
+  applyToPosition(position: Position<NumericalExpression>): Position<NumericalExpression>;
+  applyToScalar(length: NumericalExpression): NumericalExpression;
+}
 

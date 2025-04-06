@@ -1,10 +1,11 @@
 import t from 'tap';
 import { Arg, Substitute } from '@fluffy-spoon/substitute';
-import { INode } from 'svgson';
 import { _TransformAttributeParser } from './TransformAttributeParser';
-import { InitTransformerFn, Transformer, } from './Transformer';
-import { TransformDefinitionFactory } from './transformDefinition/TransformDefinitionFactory';
 import { TransformDefinition } from './transformDefinition/TransformDefinition';
+import { InitTranslateFn } from './transformDefinition/translate/Translate';
+import { InitScaleFn } from './transformDefinition/scale/Scale';
+import { InitSkewXFn } from './transformDefinition/skewX/SkewX';
+import { InitRotateFn } from './transformDefinition/rotate/Rotate';
 
 t.test('parse works', t => {
   const translateTransformDefinition = Substitute.for<TransformDefinition>();
@@ -17,15 +18,36 @@ t.test('parse works', t => {
   const translateX = 37.280179;
   const translateY = -232.59381;
 
-  const transformDefinitionFactory = Substitute.for<TransformDefinitionFactory>();
-  transformDefinitionFactory
-    .init({
+
+  interface InitTranslateFnJacket {
+    fn: InitTranslateFn
+  }
+  const initTranslateFnJacket = Substitute.for<InitTranslateFnJacket>();
+
+  interface InitScaleFnJacket {
+    fn: InitScaleFn
+  }
+  const initScaleFnJacket = Substitute.for<InitScaleFnJacket>();
+
+  interface InitSkewXFnJacket {
+    fn: InitSkewXFn
+  }
+  const initSkewXFnJacket = Substitute.for<InitSkewXFnJacket>();
+
+  interface InitRotateFnJacket {
+    fn: InitRotateFn
+  }
+  const initRotateFnJacket = Substitute.for<InitRotateFnJacket>();
+
+
+  initTranslateFnJacket
+    .fn({
       translateX,
       translateY,
     })
     .returns(translateTransformDefinition);
-  transformDefinitionFactory
-    .init({
+  initScaleFnJacket
+    .fn({
       scaleX,
       scaleY,
     })
@@ -34,7 +56,10 @@ t.test('parse works', t => {
   const matrix = "matrix(3.278713,0,0,3.278713,37.280179,-232.59381)";
 
   const transformerParser = new _TransformAttributeParser({
-    transformDefinitionFactory,
+    initTranslateFn: initTranslateFnJacket.fn,
+    initScaleFn: initScaleFnJacket.fn,
+    initSkewXFn: initSkewXFnJacket.fn,
+    initRotateFn: initRotateFnJacket.fn,
   });
 
   const found = transformerParser.parse(matrix);
@@ -45,15 +70,15 @@ t.test('parse works', t => {
 
   // start testing internal calls
 
-  transformDefinitionFactory
+  initTranslateFnJacket
     .received()
-    .init({
+    .fn({
       translateX,
       translateY,
     });
-  transformDefinitionFactory
+  initScaleFnJacket
     .received()
-    .init({
+    .fn({
       scaleX,
       scaleY,
     });

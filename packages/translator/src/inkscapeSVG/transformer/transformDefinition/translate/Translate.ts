@@ -1,42 +1,33 @@
+import { NumberOrNumericalExpression, NumericalExpression } from "../../../../utilities/numericalExpression/NumericalExpression";
 import { Position } from "../../../../utilities/Position";
-import { OptionallyInitTransformDefinitionFn, TransformDefinition, TransformDefinitionFields } from "../TransformDefinition";
+import { TransformDefinition } from "../TransformDefinition";
 
 export interface TranslateFields {
-  translateX: number;
-  translateY: number;
+  translateX: NumberOrNumericalExpression;
+  translateY: NumberOrNumericalExpression;
 }
 
 export class _Translate implements TransformDefinition {
-  translateX: number;
-  translateY: number;
+  translateX: NumberOrNumericalExpression;
+  translateY: NumberOrNumericalExpression;
 
   constructor(fields: TranslateFields) {
     this.translateX = fields.translateX;
     this.translateY = fields.translateY;
   }
 
-  applyToPosition(position: Position<number>): Position<number> {
+  applyToPosition(position: Position<NumericalExpression>): Position<NumericalExpression> {
     const [x, y] = position;
-    return [this.translateX + x, this.translateY + y];
+    return [x.add(this.translateX), y.add(this.translateY)];
   }
 
-  applyToScalar(length: number): number {
+  applyToScalar(length: NumericalExpression): NumericalExpression {
     return length;
   }
 }
 
-export function isTranslateFields(fields: TransformDefinitionFields)
-  : fields is TranslateFields {
-  return !Number.isNaN(Number((fields as TranslateFields).translateX))
-    && !Number.isNaN(Number((fields as TranslateFields).translateY));
-}
+export type InitTranslateFn
+  = (fields: TranslateFields) => TransformDefinition;
 
-export const optionallyInitTranslate: OptionallyInitTransformDefinitionFn
-  = (fields: TransformDefinitionFields) => {
-    if (isTranslateFields(fields)) {
-      return new _Translate(fields);
-    }
-    else {
-      return null;
-    }
-  }
+export const initTranslate: InitTranslateFn
+  = (fields: TranslateFields) => new _Translate(fields);

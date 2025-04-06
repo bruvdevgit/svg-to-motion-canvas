@@ -1,41 +1,71 @@
 import t from 'tap';
+import { Arg, Substitute } from '@fluffy-spoon/substitute';
 import { _Scale, ScaleFields } from './Scale';
+import { NumericalExpression } from '../../../../utilities/numericalExpression/NumericalExpression';
+import { Options } from '../TransformDefinition';
 
 t.test('applyToPosition works', t => {
-  [{
-    scale: [3, 3],
-    applyTo: [192, -93],
-    wantedResult: [576, -279]
-  },].forEach(({ scale, applyTo, wantedResult, }) => {
-    const translateDefinition = new _Scale({
-      scaleX: scale[0],
-      scaleY: scale[1],
-    } satisfies ScaleFields);
+  const scaleX = Substitute.for<NumericalExpression>();
+  const scaleY = Substitute.for<NumericalExpression>();
 
-    const found = translateDefinition.applyToPosition([applyTo[0], applyTo[1]]);
-    const wanted = [wantedResult[0], wantedResult[1]];
+  const argScaleX = Substitute.for<NumericalExpression>();
+  argScaleX
+    .multiply(scaleX)
+    .returns(argScaleX);
 
-    t.same(found, wanted);
-  });
+  const argScaleY = Substitute.for<NumericalExpression>();
+  argScaleY
+    .multiply(scaleX)
+    .returns(argScaleY);
+
+  const translateDefinition = new _Scale({
+    scaleX, scaleY,
+  } satisfies ScaleFields);
+
+  const found = translateDefinition.applyToPosition([argScaleX, argScaleY]);
+  const wanted = [argScaleX, argScaleY];
+
+  // start testing internal calls
+
+  argScaleX
+    .received()
+    .multiply(scaleX);
+
+  argScaleY
+    .received()
+    .multiply(scaleX);
+
+  // end testing internal calls
+
+  t.same(found, wanted);
   t.end();
 });
 
 t.test('applyToScalar works', t => {
-  [{
-    scale: [3, 3],
-    applyTo: 135,
-    wantedResult: 405
-  },].forEach(({ scale, applyTo, wantedResult, }) => {
-    const translateDefinition = new _Scale({
-      scaleX: scale[0],
-      scaleY: scale[1],
-    } satisfies ScaleFields);
+  const scaleX = Substitute.for<NumericalExpression>();
+  const scaleY = Substitute.for<NumericalExpression>();
 
-    const found = translateDefinition.applyToScalar(applyTo);
-    const wanted = wantedResult;
+  const argScalar = Substitute.for<NumericalExpression>();
+  argScalar
+    .multiply(scaleX)
+    .returns(argScalar);
 
-    t.equal(found, wanted);
-  });
+  const translateDefinition = new _Scale({
+    scaleX, scaleY,
+  } satisfies ScaleFields);
+
+  const found = translateDefinition.applyToScalar(argScalar);
+  const wanted = argScalar;
+
+  // start testing internal calls
+
+  argScalar
+    .received()
+    .multiply(scaleX);
+
+  // end testing internal calls
+
+  t.same(found, wanted);
   t.end();
 });
 
