@@ -73,6 +73,7 @@ t.test('toJSXComponent correctly builds JSXComponent with no children', t => {
         field: {
           key: 'width',
           value: 'width str',
+          removeQuotesFromValue: true,
         } as JSXComponentPropFields,
         prop: Substitute.for<JSXComponentProp>(),
       },
@@ -80,6 +81,7 @@ t.test('toJSXComponent correctly builds JSXComponent with no children', t => {
         field: {
           key: 'height',
           value: 'height str',
+          removeQuotesFromValue: true,
         } as JSXComponentPropFields,
         prop: Substitute.for<JSXComponentProp>(),
       },
@@ -87,6 +89,7 @@ t.test('toJSXComponent correctly builds JSXComponent with no children', t => {
         field: {
           key: 'topLeft',
           value: ['topLeft[0] str', 'topLeft[1] str'],
+          removeQuotesFromValue: true,
         } as JSXComponentPropFields,
         prop: Substitute.for<JSXComponentProp>(),
       },
@@ -101,6 +104,7 @@ t.test('toJSXComponent correctly builds JSXComponent with no children', t => {
         field: {
           key: 'lineWidth',
           value: 'lineWidth str',
+          removeQuotesFromValue: true,
         } as JSXComponentPropFields,
         prop: Substitute.for<JSXComponentProp>(),
       },
@@ -108,6 +112,7 @@ t.test('toJSXComponent correctly builds JSXComponent with no children', t => {
         field: {
           key: 'radius',
           value: 'radius str',
+          removeQuotesFromValue: true,
         } as JSXComponentPropFields,
         prop: Substitute.for<JSXComponentProp>(),
       },

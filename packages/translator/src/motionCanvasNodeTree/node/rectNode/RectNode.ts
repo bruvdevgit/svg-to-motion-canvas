@@ -60,16 +60,19 @@ export class _RectNode implements RectNode {
         ...(this.width != null ?
           [this.deps.jsxComponentPropFactory.init({
             key: 'width',
+            removeQuotesFromValue: true,
             value: this.width.getString(),
           } satisfies JSXComponentPropField)] : []),
         ...(this.height != null ?
           [this.deps.jsxComponentPropFactory.init({
             key: 'height',
+            removeQuotesFromValue: true,
             value: this.height.getString(),
           } satisfies JSXComponentPropField)] : []),
         ...(this.topLeft != null ?
           [this.deps.jsxComponentPropFactory.init({
             key: 'topLeft',
+            removeQuotesFromValue: true,
             value: [this.topLeft[0].getString(), this.topLeft[1].getString()],
           } satisfies JSXComponentPropField)] : []),
         // only mention fill if it's not set to "none"
@@ -87,11 +90,13 @@ export class _RectNode implements RectNode {
         ...(this.lineWidth != null ?
           [this.deps.jsxComponentPropFactory.init({
             key: 'lineWidth',
+            removeQuotesFromValue: true,
             value: this.lineWidth.getString(),
           } satisfies JSXComponentPropField)] : []),
         ...(this.radius != undefined ?
           [this.deps.jsxComponentPropFactory.init({
             key: 'radius',
+            removeQuotesFromValue: true,
             value: this.radius.getString(),
           } satisfies JSXComponentPropField)] : [])
       ]

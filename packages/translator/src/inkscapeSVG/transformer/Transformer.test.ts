@@ -82,29 +82,18 @@ t.test('addForUserlandConversion works', t => {
   }
 
   const userlandConversionConfigNumericalExpression = {
-    scaleFactor: Substitute.for<NumericalExpression>(),
     centerPoint: [
       Substitute.for<NumericalExpression>(),
       Substitute.for<NumericalExpression>()
     ]
   };
 
-  initNumericalExpressionFnJacket
-    .fn(userlandConversionConfig.scaleFactor)
-    .returns(userlandConversionConfigNumericalExpression
-      .scaleFactor)
-  initNumericalExpressionFnJacket
-    .fn(userlandConversionConfig.scaleFactor)
-    .returns(userlandConversionConfigNumericalExpression
-      .scaleFactor)
-  //TODO: check if the 2 above will make it usable twice
-
   const lastTransformDefinition1 = Substitute.for<TransformDefinition>();
   initScaleFnJacket
     .fn({
-      scaleX: userlandConversionConfigNumericalExpression
+      scaleX: userlandConversionConfig
         .scaleFactor,
-      scaleY: userlandConversionConfigNumericalExpression
+      scaleY: userlandConversionConfig
         .scaleFactor
     })
     .returns(lastTransformDefinition1);
@@ -153,19 +142,12 @@ t.test('addForUserlandConversion works', t => {
 
   // start testing internal calls
 
-  initNumericalExpressionFnJacket
-    .received()
-    .fn(userlandConversionConfig.scaleFactor)
-  initNumericalExpressionFnJacket
-    .received()
-    .fn(userlandConversionConfig.scaleFactor)
-
   initScaleFnJacket
     .received()
     .fn({
-      scaleX: userlandConversionConfigNumericalExpression
+      scaleX: userlandConversionConfig
         .scaleFactor,
-      scaleY: userlandConversionConfigNumericalExpression
+      scaleY: userlandConversionConfig
         .scaleFactor
     });
 

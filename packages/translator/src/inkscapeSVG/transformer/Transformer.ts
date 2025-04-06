@@ -42,10 +42,13 @@ export class _Transformer implements Transformer {
     // The order of adding scaleDefintion first
     // and translateDefinition second matters
     const scaleDefinition = this.deps.initScaleFn({
-      scaleX: this.deps.initNumericalExpressionFn(scaleFactor),
-      scaleY: this.deps.initNumericalExpressionFn(scaleFactor),
+      scaleX: scaleFactor,
+      scaleY: scaleFactor,
     });
 
+    // note the difference here, we're assigning
+    // `NumericalExpression`s instead of numbers because
+    // we want this part to be generated as unresolved code
     const translateDefinition = this.deps.initTranslateFn({
       translateX: this.deps.initNumericalExpressionFn(centerPoint[0]),
       translateY: this.deps.initNumericalExpressionFn(centerPoint[1]),
