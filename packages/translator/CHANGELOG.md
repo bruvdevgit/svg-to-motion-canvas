@@ -1,5 +1,11 @@
 # @svg-to-motion-canvas/translator
 
+## 0.0.17
+
+### Patch Changes
+
+- 496d083: moved style attribute parsing to local for each element
+
 ## 0.0.16
 
 ### Patch Changes
