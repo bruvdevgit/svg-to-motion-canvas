@@ -6,9 +6,6 @@ import { Node as MotionCanvasNode } from '../../../motionCanvasNodeTree/node/Nod
 import { Element } from '../Element';
 import { Transformer } from '../../transformer/Transformer';
 import { Position } from '../../../utilities/Position';
-import { INode } from 'svgson';
-import { RectElementAttributes } from './RectElementAttributesSchema';
-import { StyleAttributes } from '../../styleAttribute/StyleAttributeParser';
 import { InitNumericaExpressionFn, NumericalExpression } from '../../../utilities/numericalExpression/NumericalExpression';
 
 

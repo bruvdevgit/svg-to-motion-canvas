@@ -1,14 +1,15 @@
 import t from 'tap'
-import { _StyleAttributeParser, StyleAttributes } from './StyleAttributeParser';
+//import { _StyleAttributeParser, StyleAttributes } from './StyleAttributeParser';
 import { Arg, Substitute } from '@fluffy-spoon/substitute';
-import { StyleAttributesFromSchema, StyleAttributesSchema } from './StyleAttributesSchema';
-import { InlineStyleParserWrapper } from '../../wrappers/InlineStyleParserWrapper';
+//import { StyleAttributesFromSchema, StyleAttributesSchema } from './StyleAttributesSchema';
+//import { InlineStyleParserWrapper } from '../../wrappers/InlineStyleParserWrapper';
 import { Declaration } from 'inline-style-parser';
+import { _StyleAttributeSpreader } from './StyleAttributeSpreader';
+import { InlineStyleParserWrapper } from '../../../wrappers/InlineStyleParserWrapper';
 
 const testData: {
   source: string,
-  schemaOutput: StyleAttributesFromSchema,
-  final: Partial<StyleAttributes>,
+  schemaOutput: Record<string, string>,
   inlineParserDeclaration: Declaration[],
 }[] =
   [
@@ -25,18 +26,6 @@ const testData: {
         "stroke-dasharray": "none",
         "stroke-opacity": "1",
         "paint-order": "fill markers stroke"
-      },
-      "final": {
-        "fill": "#2ca02c",
-        "fillOpacity": 1,
-        "stroke": "#1300ff",
-        "strokeWidth": 1.23096,
-        "strokeLinecap": "round",
-        "strokeLinejoin": "round",
-        "strokeMiterlimit": 0,
-        "strokeDasharray": "none",
-        "strokeOpacity": 1,
-        "paintOrder": "fill markers stroke"
       },
       "inlineParserDeclaration": [
         {
@@ -205,18 +194,6 @@ const testData: {
         "stroke-opacity": "1",
         "paint-order": "fill markers stroke"
       },
-      "final": {
-        "fill": "#d40000",
-        "fillOpacity": 1,
-        "stroke": "#1300ff",
-        "strokeWidth": 1.73211,
-        "strokeLinecap": "round",
-        "strokeLinejoin": "round",
-        "strokeMiterlimit": 0,
-        "strokeDasharray": "none",
-        "strokeOpacity": 1,
-        "paintOrder": "fill markers stroke"
-      },
       "inlineParserDeclaration": [
         {
           "type": "declaration",
@@ -383,18 +360,6 @@ const testData: {
         "stroke-dasharray": "none",
         "stroke-opacity": "1",
         "paint-order": "fill markers stroke"
-      },
-      "final": {
-        "fill": "#d40000",
-        "fillOpacity": 1,
-        "stroke": "#1300ff",
-        "strokeWidth": 1.73211,
-        "strokeLinecap": "round",
-        "strokeLinejoin": "round",
-        "strokeMiterlimit": 0,
-        "strokeDasharray": "none",
-        "strokeOpacity": 1,
-        "paintOrder": "fill markers stroke"
       },
       "inlineParserDeclaration": [
         {
@@ -563,18 +528,6 @@ const testData: {
         "stroke-opacity": "1",
         "paint-order": "fill markers stroke"
       },
-      "final": {
-        "fill": "#ffcc00",
-        "fillOpacity": 1,
-        "stroke": "#1300ff",
-        "strokeWidth": 0.942981,
-        "strokeLinecap": "round",
-        "strokeLinejoin": "round",
-        "strokeMiterlimit": 0,
-        "strokeDasharray": "none",
-        "strokeOpacity": 1,
-        "paintOrder": "fill markers stroke"
-      },
       "inlineParserDeclaration": [
         {
           "type": "declaration",
@@ -741,18 +694,6 @@ const testData: {
         "stroke-dasharray": "none",
         "stroke-opacity": "1",
         "paint-order": "fill markers stroke"
-      },
-      "final": {
-        "fill": "#c87137",
-        "fillOpacity": 1,
-        "stroke": "#1300ff",
-        "strokeWidth": 0.942981,
-        "strokeLinecap": "round",
-        "strokeLinejoin": "round",
-        "strokeMiterlimit": 0,
-        "strokeDasharray": "none",
-        "strokeOpacity": 1,
-        "paintOrder": "fill markers stroke"
       },
       "inlineParserDeclaration": [
         {
@@ -921,18 +862,6 @@ const testData: {
         "stroke-opacity": "1",
         "paint-order": "fill markers stroke"
       },
-      "final": {
-        "fill": "#c83782",
-        "fillOpacity": 1,
-        "stroke": "#1300ff",
-        "strokeWidth": 1.18864,
-        "strokeLinecap": "round",
-        "strokeLinejoin": "round",
-        "strokeMiterlimit": 0,
-        "strokeDasharray": "none",
-        "strokeOpacity": 1,
-        "paintOrder": "fill markers stroke"
-      },
       "inlineParserDeclaration": [
         {
           "type": "declaration",
@@ -1099,18 +1028,6 @@ const testData: {
         "stroke-dasharray": "none",
         "stroke-opacity": "1",
         "paint-order": "fill markers stroke"
-      },
-      "final": {
-        "fill": "#37bbc8",
-        "fillOpacity": 1,
-        "stroke": "#1300ff",
-        "strokeWidth": 1.328,
-        "strokeLinecap": "round",
-        "strokeLinejoin": "round",
-        "strokeMiterlimit": 0,
-        "strokeDasharray": "none",
-        "strokeOpacity": 1,
-        "paintOrder": "fill markers stroke"
       },
       "inlineParserDeclaration": [
         {
@@ -1279,18 +1196,6 @@ const testData: {
         "stroke-opacity": "1",
         "paint-order": "fill markers stroke"
       },
-      "final": {
-        "fill": "none",
-        "fillOpacity": 1,
-        "stroke": "#2ca02c",
-        "strokeWidth": 1.25184,
-        "strokeLinecap": "round",
-        "strokeLinejoin": "round",
-        "strokeMiterlimit": 0,
-        "strokeDasharray": "none",
-        "strokeOpacity": 1,
-        "paintOrder": "fill markers stroke"
-      },
       "inlineParserDeclaration": [
         {
           "type": "declaration",
@@ -1457,18 +1362,6 @@ const testData: {
         "stroke-dasharray": "none",
         "stroke-opacity": "1",
         "paint-order": "fill markers stroke"
-      },
-      "final": {
-        "fill": "none",
-        "fillOpacity": 1,
-        "stroke": "#d40000",
-        "strokeWidth": 10.55608125,
-        "strokeLinecap": "round",
-        "strokeLinejoin": "round",
-        "strokeMiterlimit": 0,
-        "strokeDasharray": "none",
-        "strokeOpacity": 1,
-        "paintOrder": "fill markers stroke"
       },
       "inlineParserDeclaration": [
         {
@@ -1637,18 +1530,6 @@ const testData: {
         "stroke-opacity": "1",
         "paint-order": "fill markers stroke"
       },
-      "final": {
-        "fill": "none",
-        "fillOpacity": 1,
-        "stroke": "#ffcc00",
-        "strokeWidth": 13.1177,
-        "strokeLinecap": "round",
-        "strokeLinejoin": "round",
-        "strokeMiterlimit": 0,
-        "strokeDasharray": "none",
-        "strokeOpacity": 1,
-        "paintOrder": "fill markers stroke"
-      },
       "inlineParserDeclaration": [
         {
           "type": "declaration",
@@ -1815,18 +1696,6 @@ const testData: {
         "stroke-dasharray": "none",
         "stroke-opacity": "1",
         "paint-order": "fill markers stroke"
-      },
-      "final": {
-        "fill": "none",
-        "fillOpacity": 1,
-        "stroke": "#c87137",
-        "strokeWidth": 19.5042,
-        "strokeLinecap": "round",
-        "strokeLinejoin": "round",
-        "strokeMiterlimit": 0,
-        "strokeDasharray": "none",
-        "strokeOpacity": 1,
-        "paintOrder": "fill markers stroke"
       },
       "inlineParserDeclaration": [
         {
@@ -1995,18 +1864,6 @@ const testData: {
         "stroke-opacity": "1",
         "paint-order": "fill markers stroke"
       },
-      "final": {
-        "fill": "none",
-        "fillOpacity": 1,
-        "stroke": "#c83782",
-        "strokeWidth": 4.14621,
-        "strokeLinecap": "round",
-        "strokeLinejoin": "round",
-        "strokeMiterlimit": 0,
-        "strokeDasharray": "none",
-        "strokeOpacity": 1,
-        "paintOrder": "fill markers stroke"
-      },
       "inlineParserDeclaration": [
         {
           "type": "declaration",
@@ -2173,18 +2030,6 @@ const testData: {
         "stroke-dasharray": "none",
         "stroke-opacity": "1",
         "paint-order": "fill markers stroke"
-      },
-      "final": {
-        "fill": "none",
-        "fillOpacity": 1,
-        "stroke": "#37bbc8",
-        "strokeWidth": 22.449,
-        "strokeLinecap": "round",
-        "strokeLinejoin": "round",
-        "strokeMiterlimit": 0,
-        "strokeDasharray": "none",
-        "strokeOpacity": 1,
-        "paintOrder": "fill markers stroke"
       },
       "inlineParserDeclaration": [
         {
@@ -2353,18 +2198,6 @@ const testData: {
         "stroke-opacity": "1",
         "paint-order": "fill markers stroke"
       },
-      "final": {
-        "fill": "#2ca02c",
-        "fillOpacity": 1,
-        "stroke": "none",
-        "strokeWidth": 1.23096,
-        "strokeLinecap": "round",
-        "strokeLinejoin": "round",
-        "strokeMiterlimit": 0,
-        "strokeDasharray": "none",
-        "strokeOpacity": 1,
-        "paintOrder": "fill markers stroke"
-      },
       "inlineParserDeclaration": [
         {
           "type": "declaration",
@@ -2531,18 +2364,6 @@ const testData: {
         "stroke-dasharray": "none",
         "stroke-opacity": "1",
         "paint-order": "fill markers stroke"
-      },
-      "final": {
-        "fill": "#d40000",
-        "fillOpacity": 1,
-        "stroke": "none",
-        "strokeWidth": 1.73211,
-        "strokeLinecap": "round",
-        "strokeLinejoin": "round",
-        "strokeMiterlimit": 0,
-        "strokeDasharray": "none",
-        "strokeOpacity": 1,
-        "paintOrder": "fill markers stroke"
       },
       "inlineParserDeclaration": [
         {
@@ -2711,18 +2532,6 @@ const testData: {
         "stroke-opacity": "1",
         "paint-order": "fill markers stroke"
       },
-      "final": {
-        "fill": "#ffcc00",
-        "fillOpacity": 1,
-        "stroke": "none",
-        "strokeWidth": 0.942981,
-        "strokeLinecap": "round",
-        "strokeLinejoin": "round",
-        "strokeMiterlimit": 0,
-        "strokeDasharray": "none",
-        "strokeOpacity": 1,
-        "paintOrder": "fill markers stroke"
-      },
       "inlineParserDeclaration": [
         {
           "type": "declaration",
@@ -2889,18 +2698,6 @@ const testData: {
         "stroke-dasharray": "none",
         "stroke-opacity": "1",
         "paint-order": "fill markers stroke"
-      },
-      "final": {
-        "fill": "#c87137",
-        "fillOpacity": 1,
-        "stroke": "none",
-        "strokeWidth": 0.942981,
-        "strokeLinecap": "round",
-        "strokeLinejoin": "round",
-        "strokeMiterlimit": 0,
-        "strokeDasharray": "none",
-        "strokeOpacity": 1,
-        "paintOrder": "fill markers stroke"
       },
       "inlineParserDeclaration": [
         {
@@ -3069,18 +2866,6 @@ const testData: {
         "stroke-opacity": "1",
         "paint-order": "fill markers stroke"
       },
-      "final": {
-        "fill": "#c83782",
-        "fillOpacity": 1,
-        "stroke": "none",
-        "strokeWidth": 1.18864,
-        "strokeLinecap": "round",
-        "strokeLinejoin": "round",
-        "strokeMiterlimit": 0,
-        "strokeDasharray": "none",
-        "strokeOpacity": 1,
-        "paintOrder": "fill markers stroke"
-      },
       "inlineParserDeclaration": [
         {
           "type": "declaration",
@@ -3248,18 +3033,6 @@ const testData: {
         "stroke-opacity": "1",
         "paint-order": "fill markers stroke"
       },
-      "final": {
-        "fill": "#37bbc8",
-        "fillOpacity": 1,
-        "stroke": "none",
-        "strokeWidth": 1.328,
-        "strokeLinecap": "round",
-        "strokeLinejoin": "round",
-        "strokeMiterlimit": 0,
-        "strokeDasharray": "none",
-        "strokeOpacity": 1,
-        "paintOrder": "fill markers stroke"
-      },
       "inlineParserDeclaration": [
         {
           "type": "declaration",
@@ -3425,16 +3198,6 @@ const testData: {
         "stroke-dasharray": "none",
         "paint-order": "fill markers stroke"
       },
-      "final": {
-        "fill": "#483737",
-        "stroke": "#575757",
-        "strokeWidth": 0.727869,
-        "strokeLinecap": "round",
-        "strokeLinejoin": "round",
-        "strokeMiterlimit": 0,
-        "strokeDasharray": "none",
-        "paintOrder": "fill markers stroke"
-      },
       "inlineParserDeclaration": [
         {
           "type": "declaration",
@@ -3569,15 +3332,6 @@ const testData: {
         "stroke-miterlimit": "0",
         "paint-order": "fill markers stroke"
       },
-      "final": {
-        "fill": "#000080",
-        "stroke": "#575757",
-        "strokeWidth": 0.606162,
-        "strokeLinecap": "round",
-        "strokeLinejoin": "round",
-        "strokeMiterlimit": 0,
-        "paintOrder": "fill markers stroke"
-      },
       "inlineParserDeclaration": [
         {
           "type": "declaration",
@@ -3697,16 +3451,6 @@ const testData: {
         "stroke-miterlimit": "0",
         "stroke-dasharray": "none",
         "paint-order": "fill markers stroke"
-      },
-      "final": {
-        "fill": "#a02c2c",
-        "stroke": "#575757",
-        "strokeWidth": 0.728,
-        "strokeLinecap": "round",
-        "strokeLinejoin": "round",
-        "strokeMiterlimit": 0,
-        "strokeDasharray": "none",
-        "paintOrder": "fill markers stroke"
       },
       "inlineParserDeclaration": [
         {
@@ -3842,15 +3586,6 @@ const testData: {
         "stroke-miterlimit": "0",
         "paint-order": "fill markers stroke"
       },
-      "final": {
-        "fill": "#008000",
-        "stroke": "#575757",
-        "strokeWidth": 0.952229,
-        "strokeLinecap": "round",
-        "strokeLinejoin": "round",
-        "strokeMiterlimit": 0,
-        "paintOrder": "fill markers stroke"
-      },
       "inlineParserDeclaration": [
         {
           "type": "declaration",
@@ -3971,17 +3706,6 @@ const testData: {
         "stroke-dasharray": "none",
         "stroke-opacity": "1",
         "paint-order": "fill markers stroke"
-      },
-      "final": {
-        "fill": "none",
-        "stroke": "#483737",
-        "strokeWidth": 2.06322,
-        "strokeLinecap": "round",
-        "strokeLinejoin": "round",
-        "strokeMiterlimit": 0,
-        "strokeDasharray": "none",
-        "strokeOpacity": 1,
-        "paintOrder": "fill markers stroke"
       },
       "inlineParserDeclaration": [
         {
@@ -4134,17 +3858,6 @@ const testData: {
         "stroke-opacity": "1",
         "paint-order": "fill markers stroke"
       },
-      "final": {
-        "fill": "none",
-        "stroke": "#000080",
-        "strokeWidth": 9.70968,
-        "strokeLinecap": "round",
-        "strokeLinejoin": "round",
-        "strokeMiterlimit": 0,
-        "strokeDasharray": "none",
-        "strokeOpacity": 1,
-        "paintOrder": "fill markers stroke"
-      },
       "inlineParserDeclaration": [
         {
           "type": "declaration",
@@ -4295,17 +4008,6 @@ const testData: {
         "stroke-dasharray": "none",
         "stroke-opacity": "1",
         "paint-order": "fill markers stroke"
-      },
-      "final": {
-        "fill": "none",
-        "stroke": "#a02c2c",
-        "strokeWidth": 5.0001,
-        "strokeLinecap": "round",
-        "strokeLinejoin": "round",
-        "strokeMiterlimit": 0,
-        "strokeDasharray": "none",
-        "strokeOpacity": 1,
-        "paintOrder": "fill markers stroke"
       },
       "inlineParserDeclaration": [
         {
@@ -4458,17 +4160,6 @@ const testData: {
         "stroke-opacity": "1",
         "paint-order": "fill markers stroke"
       },
-      "final": {
-        "fill": "none",
-        "stroke": "#008000",
-        "strokeWidth": 17.118,
-        "strokeLinecap": "round",
-        "strokeLinejoin": "round",
-        "strokeMiterlimit": 0,
-        "strokeDasharray": "none",
-        "strokeOpacity": 1,
-        "paintOrder": "fill markers stroke"
-      },
       "inlineParserDeclaration": [
         {
           "type": "declaration",
@@ -4619,16 +4310,6 @@ const testData: {
         "stroke-dasharray": "none",
         "paint-order": "fill markers stroke"
       },
-      "final": {
-        "fill": "#483737",
-        "stroke": "#575757",
-        "strokeWidth": 0.441386,
-        "strokeLinecap": "round",
-        "strokeLinejoin": "round",
-        "strokeMiterlimit": 0,
-        "strokeDasharray": "none",
-        "paintOrder": "fill markers stroke"
-      },
       "inlineParserDeclaration": [
         {
           "type": "declaration",
@@ -4764,17 +4445,6 @@ const testData: {
         "stroke-dasharray": "none",
         "stroke-opacity": "1",
         "paint-order": "fill markers stroke"
-      },
-      "final": {
-        "fill": "none",
-        "stroke": "#a02c2c",
-        "strokeWidth": 3.52474,
-        "strokeLinecap": "round",
-        "strokeLinejoin": "round",
-        "strokeMiterlimit": 0,
-        "strokeDasharray": "none",
-        "strokeOpacity": 1,
-        "paintOrder": "fill markers stroke"
       },
       "inlineParserDeclaration": [
         {
@@ -4925,15 +4595,6 @@ const testData: {
         "stroke-miterlimit": "0",
         "paint-order": "fill markers stroke"
       },
-      "final": {
-        "fill": "#000080",
-        "stroke": "#575757",
-        "strokeWidth": 0.467621,
-        "strokeLinecap": "round",
-        "strokeLinejoin": "round",
-        "strokeMiterlimit": 0,
-        "paintOrder": "fill markers stroke"
-      },
       "inlineParserDeclaration": [
         {
           "type": "declaration",
@@ -5054,17 +4715,6 @@ const testData: {
         "stroke-dasharray": "none",
         "stroke-opacity": "1",
         "paint-order": "fill markers stroke"
-      },
-      "final": {
-        "fill": "none",
-        "stroke": "#008000",
-        "strokeWidth": 9.77944,
-        "strokeLinecap": "round",
-        "strokeLinejoin": "round",
-        "strokeMiterlimit": 0,
-        "strokeDasharray": "none",
-        "strokeOpacity": 1,
-        "paintOrder": "fill markers stroke"
       },
       "inlineParserDeclaration": [
         {
@@ -5209,30 +4859,22 @@ const testData: {
 t.test('parse correctly parses', t => {
   for (let i = 0; i < 31; i++) {
     const inlineStyleParser = Substitute.for<InlineStyleParserWrapper>();
-    const styleAttributesSchema = Substitute.for<StyleAttributesSchema>();
 
-    const styleAttributesParser = new _StyleAttributeParser({
+    const styleAttributeSpreader = new _StyleAttributeSpreader({
       inlineStyleParser,
-      styleAttributesSchema,
     });
 
     inlineStyleParser
       .parse(testData[i].source)
       .returns(testData[i].inlineParserDeclaration);
-    styleAttributesSchema
-      .parse(testData[i].schemaOutput)
-      .returns(testData[i].schemaOutput);
 
-    let found = styleAttributesParser.parse(testData[i].source);
-    const wanted = testData[i].final;
+    let found = styleAttributeSpreader.spread(testData[i].source);
+    const wanted = testData[i].schemaOutput;
 
     // - start verify internal function calls -
     inlineStyleParser
       .received()
       .parse(testData[i].source);
-    styleAttributesSchema
-      .received()
-      .parse(testData[i].schemaOutput);
     // - end verify internal function calls -
 
     t.same(found, wanted, `at idx: ${i}`);

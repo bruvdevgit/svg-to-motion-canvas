@@ -1,12 +1,11 @@
 import { Node as MotionCanvasNode } from '../../../motionCanvasNodeTree/node/Node';
 import { initRectNode, InitRectNode, RectNodeFields } from '../../../motionCanvasNodeTree/node/rectNode/RectNode';
-import { StyleAttributes } from '../../styleAttribute/StyleAttributeParser';
 import { Element } from '../Element';
 import { Transformer } from '../../transformer/Transformer';
 import { Position } from '../../../utilities/Position';
 import { initNumbericalExpression, InitNumericaExpressionFn, NumericalExpression } from '../../../utilities/numericalExpression/NumericalExpression';
 
-export interface RectElementFields extends StyleAttributes {
+export interface RectElementFields {
   label?: string;
   id: string;
   x: number;
@@ -15,6 +14,17 @@ export interface RectElementFields extends StyleAttributes {
   ry?: number;
   width: number;
   height: number;
+  fill: string;
+  fillOpacity?: number;
+  stroke: string;
+  strokeWidth: number;
+  strokeLinecap?: string;
+  strokeLinejoin: string;
+  strokeMiterlimit: number;
+  strokeDasharray?: string;
+  strokeOpacity?: number;
+  paintOrder: string;
+
   children: Element[];
   transformer?: Transformer;
 }

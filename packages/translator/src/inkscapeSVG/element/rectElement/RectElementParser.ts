@@ -4,17 +4,17 @@ import { initRectElement, InitRectElementFn, RectElement, RectElementFields } fr
 import { ElementParser, ParseFnArgs } from '../ElementParser';
 import { initRectElementAttributesSchema } from './RectElementAttributesSchema';
 import { InitElementParserFn } from '../ElementParser';
-import { initStyleAttributeParser, StyleAttributeParser } from '../../styleAttribute/StyleAttributeParser';
 import { Element as InkscapeSVGElement } from '../Element';
 import { ElementParserFactory } from '../ElementParserFactory';
 import { Transformer } from '../../transformer/Transformer';
+import { initStyleAttributeSpreader, StyleAttributeSpreader } from "../styleAttributeSpreader/StyleAttributeSpreader";
 
 export class _RectElementParser implements ElementParser {
   constructor(public deps: {
     svgRectElementSchema: RectElementAttributesSchema,
     initRectElementFn: InitRectElementFn,
-    svgElementStyleAttributeParser: StyleAttributeParser,
     elementParserFactory: ElementParserFactory,
+    styleAttributeSpreader: StyleAttributeSpreader,
   }) {
   }
 
@@ -30,20 +30,10 @@ export class _RectElementParser implements ElementParser {
       height,
       style,
       transform,
-    } = this.deps.svgRectElementSchema.parse(iNode.attributes);
-
-    const {
-      fill,
-      fillOpacity,
-      stroke,
-      strokeWidth,
-      strokeLinecap,
-      strokeLinejoin,
-      strokeMiterlimit,
-      strokeDasharray,
-      strokeOpacity,
-      paintOrder,
-    } = this.deps.svgElementStyleAttributeParser.parse(style);
+    } = this.deps.svgRectElementSchema.parse({
+      ...iNode.attributes,
+      style: this.deps.styleAttributeSpreader.spread(iNode.attributes.style)
+    });
 
     let transformer: Transformer = transformerFromUptree;
     if (transform != null) {
@@ -68,16 +58,16 @@ export class _RectElementParser implements ElementParser {
       ...(ry != null ? { ry: Number(ry) } : {}),
       width: +width,
       height: +height,
-      fill,
-      fillOpacity,
-      stroke,
-      strokeWidth,
-      strokeLinecap,
-      strokeLinejoin,
-      strokeMiterlimit,
-      strokeDasharray,
-      strokeOpacity,
-      paintOrder,
+      fill: style.fill,
+      fillOpacity: Number(style['fill-opacity']),
+      stroke: style.stroke,
+      strokeWidth: Number(style['stroke-width']),
+      strokeLinecap: style['stroke-linecap'],
+      strokeLinejoin: style['stroke-linejoin'],
+      strokeMiterlimit: Number(style['stroke-miterlimit']),
+      strokeDasharray: style['stroke-dasharray'],
+      strokeOpacity: Number(style['stroke-opacity']),
+      paintOrder: style['paint-order'],
       children,
       transformer,
     };
@@ -92,8 +82,8 @@ export const initRectElementParser: InitElementParserFn
   ) => new _RectElementParser({
     svgRectElementSchema: initRectElementAttributesSchema(),
     initRectElementFn: initRectElement,
-    svgElementStyleAttributeParser: initStyleAttributeParser(),
     elementParserFactory,
+    styleAttributeSpreader: initStyleAttributeSpreader(),
   });
 /* c8 ignore stop */
 

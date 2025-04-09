@@ -23,7 +23,25 @@ const _rectElementAttributesSchema = myzod.object({
   height: myzod.string()
     .withPredicate((val: string) => !Number.isNaN(Number(val)),
       'value must be convertable to a number'),
-  style: myzod.string(),
+  style: myzod.object({
+    fill: myzod.string(),
+    'fill-opacity': myzod.string().optional(),
+    stroke: myzod.string(),
+    'stroke-width': myzod.string()
+      .withPredicate((val: string) => !Number.isNaN(Number(val)),
+        'value must be convertable to a number'),
+    'stroke-linecap': myzod.string().optional(),
+    'stroke-linejoin': myzod.string(),
+    'stroke-miterlimit': myzod.string()
+      .withPredicate((val: string) => !Number.isNaN(Number(val)),
+        'value must be convertable to a number'),
+    'stroke-dasharray': myzod.string().optional(),
+    'stroke-opacity': myzod.string()
+      .withPredicate((val: string) => !Number.isNaN(Number(val)),
+        'value must be convertable to a number')
+      .optional(),
+    'paint-order': myzod.string(),
+  }),
   transform: myzod.string()
     .pattern(TRANSFORM_ATTRIBUTE_MATRIX_VALUE_REGEX)
     .optional(),
